@@ -764,8 +764,6 @@ def menuInformes():
             menuInformes()
             break
 
-
-
 def modificarEstadoRetraso():
     id_vuelo = input(Fore.LIGHTBLACK_EX+"Ingrese el numero de vuelo: ")
     mycursor.execute("SELECT id_estado FROM vuelo where id_vuelo=" + id_vuelo)

@@ -1,15 +1,15 @@
 create database aeropuerto;
 use aeropuerto;
 create table Pais(
-id_pais int primary key,
-nombre_pais varchar(45) not null,
-Region_pais varchar(45) not null
+	id_pais int primary key auto_increment,
+	nombre_pais varchar(45) not null,
+	Region_pais varchar(45) not null
 );
 create table Aeropuerto(
-id_aeropuerto int primary key,
-nombre varchar(45) not null,
-id_pais int not null,
-foreign key (id_pais) references Pais(id_pais)
+	id_aeropuerto int primary key auto_increment,
+	nombre varchar(45) not null,
+	id_pais int not null,
+	foreign key (id_pais) references Pais(id_pais)
 );
 #Se crea la tabla cliente
 create table cliente(
@@ -23,37 +23,54 @@ create table cliente(
     id_pais int not null,
     foreign key (id_pais) references pais(id_pais)
 );
-
+create table tipo_avion(
+ id_tipo int primary key auto_increment,
+ nombre varchar(45)
+);
+create table marca(
+ id_marca int primary key auto_increment,
+ nombre varchar(45)
+);
+create table modelo(
+ id_modelo int primary key auto_increment,
+ nombre varchar(45)
+);
 #Se crea la tabla avion
 create table avion(
-	id_avion int primary key,
+	id_avion int primary key auto_increment,
     numero_de_serie int not null,
     nombre varchar(50)  not null,
-    tipo varchar(50)  not null,
-    marca varchar(50)  not null,
-    modelo varchar(50)  not null,
+    id_tipo int  not null,
+    id_marca int  not null,
+    id_modelo int not null,
     capacidad int not null,
-    horas_vuelo int not null
+    horas_vuelo int not null,
+    foreign key (id_tipo) references tipo_avion(id_tipo),
+    foreign key (id_marca) references marca(id_marca),
+    foreign key (id_modelo) references modelo(id_modelo)
 );
+
 create table silla(
-	id_silla int primary key,
+	id_silla int primary key auto_increment,
     estado varchar(45),
+    n_silla int not null,
     id_avion int not null,
     foreign key (id_avion) references avion(id_avion)
 );
-select * from avion;
+
 create table estado(
 	id_estado int primary key,
     estado varchar(45)
 );
+
 #Se crea la tabla vuelo
 create table vuelo(
-    id_vuelo int primary key,
+    id_vuelo int primary key auto_increment,
     fecha date not null,
     horaSalida time not null,
     horaLlegada time,
     numero_Pista varchar(50) not null,
-    comentarios varchar(100) not null,#Esta en retraso por una lluvia, por u
+    comentarios varchar(100) not null,
     id_avion int not null,
     id_aeropuerto_origen int not null,
     id_aeropuerto_destino int not null,
@@ -63,52 +80,64 @@ create table vuelo(
     foreign key (id_aeropuerto_destino) references aeropuerto(id_aeropuerto),
     foreign key (id_estado) references estado(id_estado)
 );
-create table horario_dia(
-id_horariodia int primary key,
-dias_disponibles varchar(45) not null,
-id_vuelo int not null,
-foreign key (id_vuelo) references vuelo (id_vuelo)
+create table tipo_tiquete(
+ id_tipo int primary key auto_increment,
+ nombre varchar(45)
 );
-create table horario_hora(
-	id_horariohora int primary key,
-    hora_disponibles varchar(45) not null,
-    id_dia int not null,
-    foreign key (id_dia) references horario_dia(id_horariodia)
-);
-
 #Se crea la tabla tiquete
 create table tiquete(
-    id_tiquete int primary key ,
+    id_tiquete int primary key auto_increment,
     id_cliente int  not null,
     id_vuelo int not null,
-    tipo varchar(45) not null,
+    tipo int not null,
     foreign key (id_cliente) references cliente(cedula),
-    foreign key (id_vuelo) references vuelo(id_vuelo)
+    foreign key (id_vuelo) references vuelo(id_vuelo),
+    foreign key (tipo) references tipo_tiquete(id_tipo)
 );
 
-INSERT INTO Pais (id_pais, nombre_pais, Region_pais) 
-VALUES (1, 'Mexico', 'Centroamerica'), 
-(2, 'El Salvador', 'Centroamerica'), 
-(3, 'Honduras', 'Centroamerica'), 
-(4, 'Guatemala', 'Centroamerica'), 
-(5, 'Belice', 'Centroamerica'), 
-(6, 'Nicaragua', 'Centroamerica'), 
-(7, 'Costa Rica', 'Centroamerica'), 
-(8, 'Panama', 'Centroamerica'), 
-(9, 'Argentina', 'Suramerica'), 
-(10, 'Brasil', 'Suramerica');
-
-INSERT INTO Aeropuerto (id_aeropuerto, nombre, id_pais) 
-VALUES (1, 'Aeropuerto Internacional de Mexico', 1), 
-(2, 'Aeropuerto Internacional de El Salvador', 2), 
-(3, 'Aeropuerto Internacional de Honduras', 3), 
-(4, 'Aeropuerto Internacional de Guatemala', 4), 
-(5, 'Aeropuerto Internacional de Belice', 5), 
-(6, 'Aeropuerto Internacional de Nicaragua', 6), 
-(7, 'Aeropuerto Internacional de Costa Rica', 7), 
-(8, 'Aeropuerto Internacional de Panama', 8), 
-(9, 'Aeropuerto Internacional de Argentina', 9), 
-(10, 'Aeropuerto Internacional de Brasil', 10);
+delimiter //
+CREATE TRIGGER sillas_avion
+AFTER INSERT ON avion
+FOR EACH ROW
+BEGIN
+	DECLARE i INT DEFAULT 1;
+	WHILE i <= NEW.capacidad DO
+		INSERT INTO silla (estado, n_silla, id_avion) 
+		VALUES ('Disponible', i, NEW.id_avion);
+		SET i = i + 1;
+	END WHILE;
+END;
+// delimiter ;
+INSERT INTO Pais (nombre_pais, Region_pais) 
+VALUES ('Mexico', 'Centroamerica'), 
+('El Salvador', 'Centroamerica'), 
+('Honduras', 'Centroamerica'), 
+('Guatemala', 'Centroamerica'), 
+('Belice', 'Centroamerica'), 
+('Nicaragua', 'Centroamerica'), 
+('Costa Rica', 'Centroamerica'), 
+('Panama', 'Centroamerica'), 
+('Argentina', 'Suramerica'), 
+('Brasil', 'Suramerica'),
+('Colombia','Suramerica'),
+('Peru','Suramerica'),
+('Uruguay','Suramerica');
+INSERT INTO Aeropuerto (nombre, id_pais) 
+VALUES ('Aeropuerto Internacional de Mexico', 1), 
+('Aeropuerto Internacional de El Salvador', 2), 
+('Aeropuerto Internacional de Honduras', 3), 
+('Aeropuerto Internacional de Guatemala', 4), 
+('Aeropuerto Internacional de Belice', 5), 
+('Aeropuerto Internacional de Nicaragua', 6), 
+('Aeropuerto Internacional de Costa Rica', 7), 
+('Aeropuerto Internacional de Panama', 8), 
+('Aeropuerto Internacional de Argentina', 9), 
+('Aeropuerto Internacional de Brasil', 10),
+('Aeropuerto Internacional El Dorado',1),
+('Aeropuerto Internacional Ezeiza',2),
+('Aeropuerto Internacional Guarulhos',3),
+('Aeropuerto Internacional Jorge Chavez',4),
+('Aeropuerto Internacional Carrasco',5);
 
 #Cliente
 INSERT INTO cliente VALUES (123456789, 'Juan', 'García', '2000-03-03', 'Calle Falsa 123', '55555555', 'juan.garcia@example.com', 1);
@@ -121,31 +150,46 @@ INSERT INTO cliente VALUES (123456123, 'Camila', 'Gomez', '1994-05-25', 'Calle F
 INSERT INTO cliente VALUES (927654521, 'Mateo', 'Diaz', '1991-12-30', 'Calle Falsa 115', '22222222', 'mateo.diaz@example.com', 8);
 INSERT INTO cliente VALUES (137258169, 'Valentina', 'Martinez', '1992-08-16', 'Calle Falsa 116', '33333333', 'valentina.martinez@example.com', 9);
 INSERT INTO cliente VALUES (123436719, 'Nicolas', 'Gutierrez', '1993-07-04', 'Calle Falsa 117', '44444444', 'nicolas.gutierrez@example.com', 10);
+INSERT INTO cliente VALUES(12345678, 'Juan', 'Perez', '1995-05-20', 'Calle 123', '12345678', 'juanperez@gmail.com',1);
+INSERT INTO cliente VALUES(12345679, 'Maria', 'Gomez', '1990-04-15', 'Calle 456', '12345679', 'mariagomez@gmail.com',2);
+INSERT INTO cliente VALUES(12345680, 'Jorge', 'Lopez', '1992-08-30', 'Calle 789', '12345680', 'jorgelopez@gmail.com',3);
+INSERT INTO cliente VALUES(12345681, 'Ana', 'Sanchez', '1996-11-10', 'Calle 987', '12345681', 'anasanchez@gmail.com',4);
+INSERT INTO cliente VALUES(12345682, 'Pedro', 'Gonzalez', '1998-07-20', 'Calle 654', '12345682', 'pedrogonzalez@gmail.com',5);
 
-#Avion
-INSERT INTO avion VALUES (1, 39805, 'Boeing 737-800', 'Avión comercial', 'Boeing', '737-800', 162, 0);
-INSERT INTO avion VALUES (2, 39837, 'Airbus A320', 'Avión comercial', 'Airbus', 'A320', 150, 0);
-INSERT INTO avion VALUES (3, 39839, 'Airbus A321', 'Avión comercial', 'Airbus', 'A321', 200, 0);
-INSERT INTO avion VALUES (4, 39841, 'Boeing 767-300', 'Avión comercial', 'Boeing', '767-300', 230, 0);
-INSERT INTO avion VALUES (5, 39843, 'Boeing 777-200', 'Avión comercial', 'Boeing', '777-200', 250, 0);
-INSERT INTO avion VALUES (6, 39845, 'Airbus A330-200', 'Avión comercial', 'Airbus', 'A330-200', 300, 0);
-INSERT INTO avion VALUES (7, 39847, 'Boeing 747-400', 'Avión comercial', 'Boeing', '747-400', 400, 0);
-INSERT INTO avion VALUES (8, 39849, 'Boeing 787-9', 'Avión comercial', 'Boeing', '787-9', 350, 0);
-INSERT INTO avion VALUES (9, 39851, 'Airbus A350-900', 'Avión comercial', 'Airbus', 'A350-900', 330, 0);
-INSERT INTO avion VALUES (10, 39853, 'Boeing 787-10', 'Avión comercial', 'Boeing', '787-10', 380, 0);
+#Insertar datos en la tabla tipo
+INSERT INTO tipo_avion(nombre) VALUES('Avion de pasajeros'),
+('Avion de carga'),
+('Avion de guerra'),
+('Avion de entrenamiento'),
+('Avion Comercial');
 
-#Silla
-INSERT INTO silla VALUES (1, 'Disponible', 1);
-INSERT INTO silla VALUES (2, 'Disponible', 2);
-INSERT INTO silla VALUES (3, 'Disponible', 3);
-INSERT INTO silla VALUES (4, 'Disponible', 4);
-INSERT INTO silla VALUES (5, 'Disponible', 5);
-INSERT INTO silla VALUES (6, 'Disponible', 6);
-INSERT INTO silla VALUES (7, 'Disponible', 7);
-INSERT INTO silla VALUES (8, 'Disponible', 8);
-INSERT INTO silla VALUES (9, 'Disponible', 9);
-INSERT INTO silla VALUES (10, 'Disponible', 10);
+insert into modelo (nombre) values ('DC-9');
+insert into modelo (nombre) values ('DC-10');
+insert into modelo (nombre) values ('Fokker F-27');
+insert into modelo (nombre) values ('A320');
+insert into modelo (nombre) values ('B767');
+insert into modelo (nombre) values ('A340');
+insert into modelo (nombre) values ('B777');
+insert into modelo (nombre) values ('A380');
+insert into modelo (nombre) values ('MD-11');
+insert into modelo (nombre) values ('CRJ-700');
 
+insert into marca (nombre) values ('McDonnell Douglas');
+insert into marca (nombre) values ('Fokker');
+insert into marca (nombre) values ('Airbus');
+insert into marca (nombre) values ('Boeing');
+insert into marca (nombre) values ('Boeing');
+insert into marca (nombre) values ('Airbus');
+insert into marca (nombre) values ('Boeing');
+insert into marca (nombre) values ('Airbus');
+insert into marca (nombre) values ('McDonnell Douglas');
+insert into marca (nombre) values ('Bombardier');
+#Insertar datos en la tabla avion
+INSERT INTO avion(numero_de_serie, nombre, id_tipo, id_marca, id_modelo, capacidad, horas_vuelo) VALUES(12345, 'Avion 1', 1, 1, 1, 200, 500),
+(12346, 'Avion 2', 2, 2, 2, 200, 500),
+(12347, 'Avion 3', 3, 3, 3, 200, 500),
+(12348, 'Avion 4', 4, 4, 4, 200, 500),
+(12349, 'Avion 5', 5, 5, 5, 200, 500);
 #Estado
 INSERT INTO estado VALUES (1, 'Activo');
 INSERT INTO estado VALUES (2, 'Cancelado');
@@ -160,51 +204,39 @@ INSERT INTO estado VALUES (10, 'Despegando');
 INSERT INTO estado VALUES (11, 'En vuelo');
 
 #Vuelo
-INSERT INTO vuelo VALUES (1, '2020-02-01', '14:00:00', '18:00:00', 'Pista 23', 'Vuelo sin incidentes', 1, 1, 2, 1);
-INSERT INTO vuelo VALUES (2, '2020-02-02', '12:00:00', '15:00:00', 'Pista 24', 'Vuelo sin incidentes', 2, 2, 3, 1);
-INSERT INTO vuelo VALUES (3, '2020-02-03', '14:00:00', '17:00:00', 'Pista 25', 'Vuelo sin incidentes', 3, 3, 4, 1);
-INSERT INTO vuelo VALUES (4, '2020-02-04', '16:00:00', '20:00:00', 'Pista 26', 'Vuelo sin incidentes', 4, 4, 5, 1);
-INSERT INTO vuelo VALUES (5, '2020-02-05', '18:00:00', '22:00:00', 'Pista 27', 'Vuelo sin incidentes', 5, 5, 6, 1);
-INSERT INTO vuelo VALUES (6, '2020-02-06', '20:00:00', '23:00:00', 'Pista 28', 'Vuelo sin incidentes', 6, 6, 7, 1);
-INSERT INTO vuelo VALUES (7, '2020-02-07', '22:00:00', '02:00:00', 'Pista 29', 'Vuelo sin incidentes', 7, 7, 8, 1);
-INSERT INTO vuelo VALUES (8, '2020-02-08', '00:00:00', '04:00:00', 'Pista 30', 'Vuelo sin incidentes', 8, 8, 9, 1);
-INSERT INTO vuelo VALUES (9, '2020-02-09', '02:00:00', '06:00:00', 'Pista 31', 'Vuelo sin incidentes', 9, 9, 10, 1);
-INSERT INTO vuelo VALUES (10, '2020-02-10', '04:00:00', '08:00:00', 'Pista 32', 'Vuelo sin incidentes', 10, 10, 1, 1);
-#Horario dia
-INSERT INTO horario_dia VALUES (1, 'Lunes', 1);
-INSERT INTO horario_dia VALUES (2, 'Martes', 2);
-INSERT INTO horario_dia VALUES (3, 'Miércoles', 3);
-INSERT INTO horario_dia VALUES (4, 'Jueves', 4);
-INSERT INTO horario_dia VALUES (5, 'Viernes', 5);
-INSERT INTO horario_dia VALUES (6, 'Sábado', 6);
-INSERT INTO horario_dia VALUES (7, 'Domingo', 7);
-INSERT INTO horario_dia VALUES (8, 'Lunes', 8);
-INSERT INTO horario_dia VALUES (9, 'Martes', 9);
-INSERT INTO horario_dia VALUES (10, 'Miércoles', 10);
+INSERT INTO vuelo (fecha,horaSalida,horaLlegada,numero_Pista,comentarios,id_avion,id_aeropuerto_origen,id_aeropuerto_destino,id_estado) VALUES 
+('2020-02-01', '14:00:00', '18:00:00', 'Pista 23', 'Vuelo sin incidentes', 1, 1, 2, 1),
+('2020-02-02', '12:00:00', '15:00:00', 'Pista 24', 'Vuelo sin incidentes', 2, 2, 3, 1),
+('2020-02-03', '14:00:00', '17:00:00', 'Pista 25', 'Vuelo sin incidentes', 3, 3, 4, 1),
+('2020-02-04', '16:00:00', '20:00:00', 'Pista 26', 'Vuelo sin incidentes', 4, 4, 5, 1),
+('2020-02-05', '18:00:00', '22:00:00', 'Pista 27', 'Vuelo sin incidentes', 5, 5, 6, 1),
+('2020-05-20', '19:00:00', '22:00:00', 'A1', 'A tiempo', 1, 1, 5, 5),
+('2020-05-20', '19:00:00', '23:00:00', 'A2', 'Retrasado por lluvia', 2, 2, 7, 2),
+('2020-05-20', '19:00:00', '22:00:00', 'A3', 'A tiempo', 3, 3, 4, 5),
+('2020-05-20', '19:00:00', '23:00:00', 'A4', 'Retrasado por mantenimiento', 4, 4, 8, 2),
+('2020-05-20', '19:00:00', '22:00:00', 'A5', 'A tiempo', 5, 5, 10, 5);
 
-#Horario hora
-INSERT INTO horario_hora VALUES (1, '09:00:00', 1);
-INSERT INTO horario_hora VALUES (2, '11:00:00', 2);
-INSERT INTO horario_hora VALUES (3, '13:00:00', 3);
-INSERT INTO horario_hora VALUES (4, '15:00:00', 4);
-INSERT INTO horario_hora VALUES (5, '17:00:00', 5);
-INSERT INTO horario_hora VALUES (6, '19:00:00', 6);
-INSERT INTO horario_hora VALUES (7, '21:00:00', 7);
-INSERT INTO horario_hora VALUES (8, '23:00:00', 8);
-INSERT INTO horario_hora VALUES (9, '01:00:00', 9);
-INSERT INTO horario_hora VALUES (10, '03:00:00', 10);
+#Tipos de tiquetes
+INSERT INTO tipo_tiquete (nombre) values('Economica'), ('Primera Clase'), ('Clase Ejecutiva');
 #Tiquete
-INSERT INTO tiquete VALUES (1, 123456789, 1, 'Economica');
-INSERT INTO tiquete VALUES (2, 987654321, 2, 'Economica');
-INSERT INTO tiquete VALUES (3, 147258369, 3, 'Economica');
-INSERT INTO tiquete VALUES (4, 123456789, 4, 'Economica');
-INSERT INTO tiquete VALUES (5, 987654321, 5, 'Economica');
-INSERT INTO tiquete VALUES (6, 147258369, 6, 'Economica');
-INSERT INTO tiquete VALUES (7, 123456789, 7, 'Economica');
-INSERT INTO tiquete VALUES (8, 987654321, 8, 'Economica');
-INSERT INTO tiquete VALUES (9, 147258369, 9, 'Economica');
-INSERT INTO tiquete VALUES (10, 123456789, 10, 'Economica');
-
+INSERT INTO tiquete (id_cliente,id_vuelo,tipo) VALUES 
+(123456789, 1, 1),
+(987654321, 2, 1),
+(147258369, 3, 2),
+(123456789, 4, 3),
+(987654321, 5, 1),
+(147258369, 6, 2),
+(123456789, 7, 3),
+(987654321, 8, 1),
+(147258369, 9, 2),
+(123456789, 10, 3),
+(12345678, 1, 1),
+(12345679, 2, 2),
+(12345680, 3, 3),
+(12345681, 4, 1),
+(12345682, 5, 2);
+#Silla
+select * from silla
 ########## USUARIOS ##########
 
 ########## VISTAS ##########
@@ -251,24 +283,30 @@ end
 
 #Registrar aviones
 delimiter //
-create procedure registra_avion (in id_avion int, in numero_de_serie int, in nombre varchar(50), in tipo varchar(45), in marca varchar(45), in modelo varchar(45), in capacidad int, in horas_vuelo int)
+create procedure registra_avion (in numero_de_serie int, in nombre varchar(50), in tipo varchar(45), in marca varchar(45), in modelo varchar(45), in capacidad int, in horas_vuelo int)
 begin
-    INSERT INTO avion (id_avion,numero_de_serie, nombre, tipo, marca, modelo, capacidad, horas_vuelo) 
-    VALUES (id_avion,numero_de_serie, nombre, tipo, marca, modelo, capacidad, horas_vuelo);
+    INSERT INTO avion (numero_de_serie, nombre, tipo, marca, modelo, capacidad, horas_vuelo) 
+    VALUES (numero_de_serie, nombre, tipo, marca, modelo, capacidad, horas_vuelo);
 end
 // delimiter 
 drop procedure registra_avion;
 
 #Registrar Vuelo
 delimiter //
-create procedure registra_vuelo (in id_vuelo int, in fecha date, in hora_salida time,in hora_llegada time, in pista varchar(45), in comentarios varchar(100), in id_avion int, in id_aeropuertoO int, in id_aeropuertoD int, in estado int)
+create procedure registra_vuelo (in fecha date, in hora_salida time,in hora_llegada time, in pista varchar(45), in comentarios varchar(100), in id_avion int, in id_aeropuertoO int, in id_aeropuertoD int, in estado int)
 begin
-    INSERT INTO vuelo (id_vuelo,fecha,horaSalida,horaLlegada, numero_Pista,comentarios,id_avion,id_aeropuerto_origen,id_aeropuerto_destino,id_estado) 
-    VALUES (id_vuelo,fecha,hora_salida,hora_llegada, pista,comentarios,id_avion,id_aeropuertoO,id_aeropuertoD,estado);
+    INSERT INTO vuelo (fecha,horaSalida,horaLlegada, numero_Pista,comentarios,id_avion,id_aeropuerto_origen,id_aeropuerto_destino,id_estado) 
+    VALUES (fecha,hora_salida,hora_llegada, pista,comentarios,id_avion,id_aeropuertoO,id_aeropuertoD,estado);
 end
 // delimiter 
-select * from vuelo
-drop procedure registra_vuelo;
+
+
+
+
+
+
+
+
 #Registrar Tiquete
 delimiter //
 create procedure registra_vuelo (in id_avion int, in numero_de_serie int, in nombre varchar(50), in tipo varchar(45), in marca varchar(45), in modelo varchar(45), in capacidad int, in horas_vuelo int)
