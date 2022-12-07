@@ -205,25 +205,104 @@ INSERT INTO tiquete VALUES (8, 987654321, 8, 'Economica');
 INSERT INTO tiquete VALUES (9, 147258369, 9, 'Economica');
 INSERT INTO tiquete VALUES (10, 123456789, 10, 'Economica');
 
-select * from vuelo;
-select id_vuelo, id_estado from vuelo;
-SELECT id_vuelo,id_estado FROM vuelo where id_vuelo=4;
-UPDATE vuelo SET id_estado = 11,comentarios = "En vuelo" WHERE id_vuelo=10;
-select * from cliente;
+########## USUARIOS ##########
 
-select a.id_avion, a.nombre,v.id_vuelo, hour(timediff(v.horaLlegada, v.horaSalida)), e.estado 
-from vuelo v join estado e on e.id_estado = v.id_estado
-			 join avion a on a.id_avion = v.id_avion
-where e.id_estado = 5;
+########## VISTAS ##########
+#Listado de clientes por vuelo.
+create view clientes_vuelo as 
+SELECT c.cedula, concat(c.nombre,' ',c.apellido) as cliente, v.id_vuelo, v.fecha, v.horaSalida, v.horaLlegada, v.comentarios 
+FROM vuelo v join tiquete t on t.id_vuelo = v.id_vuelo 
+			join cliente c on c.cedula = t.id_cliente;
+select * from clientes_vuelo;
+
+#Listado de aviones que se encuentran listos para partir asi como la cantidad de clientes que trasportan.
+create view aviones_listos as 
 select a.id_avion, a.nombre, v.id_vuelo, v.fecha, e.estado 
 from vuelo v join estado e on e.id_estado = v.id_estado 
-join avion a on a.id_avion = v.id_avion
+			join avion a on a.id_avion = v.id_avion 
 where e.id_estado = 1 or e.id_estado = 6 or e.id_estado =7 or e.id_estado = 8 and e.id_estado = 10;
-SELECT * FROM silla;
-##Cuando se cree el avion se cree la disponibilidad de las ssillas para el avion
 
-##Cantidad
-select a.id_avion, a.nombre, v.id_vuelo, v.fecha, e.estado , a.capacidad
+
+#Listado de aviones que han llegado a su destino y el tiempo que tardaron en llegar.
+create view vuelos_finalizados as
+select a.id_avion, a.nombre,v.id_vuelo, hour(timediff(v.horaLlegada, v.horaSalida)), e.estado 
 from vuelo v join estado e on e.id_estado = v.id_estado 
-join avion a on a.id_avion = v.id_avion 
-where e.id_estado = 1 or e.id_estado = 6 or e.id_estado =7 or e.id_estado = 8 and e.id_estado = 10
+				join avion a on a.id_avion = v.id_avion 
+where e.id_estado = 5;
+
+
+#Listado de aviones que se han retrasado y el motivo del retraso de su partida.   
+create view vuelos_retrasados as
+select a.id_avion, a.nombre, v.id_vuelo, v.fecha, e.estado, v.comentarios 
+from vuelo v join estado e on e.id_estado = v.id_estado 
+			join avion a on a.id_avion = v.id_avion 
+where e.id_estado = 3;
+
+########## PROCEDIMIENTOS ##########
+
+#Registrar clientes
+delimiter //
+create procedure registra_cliente (in cedula int, in nombre varchar(50), in apellido varchar(50), in fecha_nac date, in direccion varchar(45), in telefono varchar(10),in correo varchar(45), in id_pais int)
+begin
+	INSERT INTO cliente (cedula, nombre, apellido, fecha_nac, direccion, telefono, correo, id_pais)
+           VALUES (cedula, nombre, apellido, fecha_nac,direccion, telefono, correo, id_pais);
+end
+// delimiter 
+
+#Registrar aviones
+delimiter //
+create procedure registra_avion (in id_avion int, in numero_de_serie int, in nombre varchar(50), in tipo varchar(45), in marca varchar(45), in modelo varchar(45), in capacidad int, in horas_vuelo int)
+begin
+    INSERT INTO avion (id_avion,numero_de_serie, nombre, tipo, marca, modelo, capacidad, horas_vuelo) 
+    VALUES (id_avion,numero_de_serie, nombre, tipo, marca, modelo, capacidad, horas_vuelo);
+end
+// delimiter 
+drop procedure registra_avion;
+
+#Registrar Vuelo
+delimiter //
+create procedure registra_vuelo (in id_vuelo int, in fecha date, in hora_salida time,in hora_llegada time, in pista varchar(45), in comentarios varchar(100), in id_avion int, in id_aeropuertoO int, in id_aeropuertoD int, in estado int)
+begin
+    INSERT INTO vuelo (id_vuelo,fecha,horaSalida,horaLlegada, numero_Pista,comentarios,id_avion,id_aeropuerto_origen,id_aeropuerto_destino,id_estado) 
+    VALUES (id_vuelo,fecha,hora_salida,hora_llegada, pista,comentarios,id_avion,id_aeropuertoO,id_aeropuertoD,estado);
+end
+// delimiter 
+select * from vuelo
+drop procedure registra_vuelo;
+#Registrar Tiquete
+delimiter //
+create procedure registra_vuelo (in id_avion int, in numero_de_serie int, in nombre varchar(50), in tipo varchar(45), in marca varchar(45), in modelo varchar(45), in capacidad int, in horas_vuelo int)
+begin
+    INSERT INTO avion (id_avion,numero_de_serie, nombre, tipo, marca, modelo, capacidad, horas_vuelo) 
+    VALUES (id_avion,numero_de_serie, nombre, tipo, marca, modelo, capacidad, horas_vuelo);
+end
+// delimiter 
+drop procedure registra_vuelo;
+#Registrar Retraso
+delimiter //
+create procedure registra_vuelo (in id_avion int, in numero_de_serie int, in nombre varchar(50), in tipo varchar(45), in marca varchar(45), in modelo varchar(45), in capacidad int, in horas_vuelo int)
+begin
+    INSERT INTO avion (id_avion,numero_de_serie, nombre, tipo, marca, modelo, capacidad, horas_vuelo) 
+    VALUES (id_avion,numero_de_serie, nombre, tipo, marca, modelo, capacidad, horas_vuelo);
+end
+// delimiter 
+drop procedure registra_vuelo;
+#Registrar Llegada
+delimiter //
+create procedure registra_vuelo (in id_avion int, in numero_de_serie int, in nombre varchar(50), in tipo varchar(45), in marca varchar(45), in modelo varchar(45), in capacidad int, in horas_vuelo int)
+begin
+    INSERT INTO avion (id_avion,numero_de_serie, nombre, tipo, marca, modelo, capacidad, horas_vuelo) 
+    VALUES (id_avion,numero_de_serie, nombre, tipo, marca, modelo, capacidad, horas_vuelo);
+end
+// delimiter 
+drop procedure registra_vuelo;
+#Modificar Estado de Retraso
+delimiter //
+create procedure registra_vuelo (in id_avion int, in numero_de_serie int, in nombre varchar(50), in tipo varchar(45), in marca varchar(45), in modelo varchar(45), in capacidad int, in horas_vuelo int)
+begin
+    INSERT INTO avion (id_avion,numero_de_serie, nombre, tipo, marca, modelo, capacidad, horas_vuelo) 
+    VALUES (id_avion,numero_de_serie, nombre, tipo, marca, modelo, capacidad, horas_vuelo);
+end
+// delimiter 
+drop procedure registra_vuelo;
+########## TRIGGERS ##########
