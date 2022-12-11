@@ -236,7 +236,7 @@ INSERT INTO tiquete (id_cliente,id_vuelo,tipo) VALUES
 (12345681, 4, 1),
 (12345682, 5, 2);
 #Silla
-select * from silla
+select * from silla;
 ########## USUARIOS ##########
 
 ########## VISTAS ##########
@@ -253,7 +253,7 @@ select a.id_avion, a.nombre, v.id_vuelo, v.fecha, e.estado
 from vuelo v join estado e on e.id_estado = v.id_estado 
 			join avion a on a.id_avion = v.id_avion 
 where e.id_estado = 1 or e.id_estado = 6 or e.id_estado =7 or e.id_estado = 8 and e.id_estado = 10;
-
+select * from aviones_listos;
 
 #Listado de aviones que han llegado a su destino y el tiempo que tardaron en llegar.
 create view vuelos_finalizados as
@@ -261,7 +261,7 @@ select a.id_avion, a.nombre,v.id_vuelo, hour(timediff(v.horaLlegada, v.horaSalid
 from vuelo v join estado e on e.id_estado = v.id_estado 
 				join avion a on a.id_avion = v.id_avion 
 where e.id_estado = 5;
-
+select * from vuelos_finalizados;
 
 #Listado de aviones que se han retrasado y el motivo del retraso de su partida.   
 create view vuelos_retrasados as
@@ -269,6 +269,7 @@ select a.id_avion, a.nombre, v.id_vuelo, v.fecha, e.estado, v.comentarios
 from vuelo v join estado e on e.id_estado = v.id_estado 
 			join avion a on a.id_avion = v.id_avion 
 where e.id_estado = 3;
+select * from vuelos_retrasados;
 
 ########## PROCEDIMIENTOS ##########
 
@@ -283,10 +284,10 @@ end
 
 #Registrar aviones
 delimiter //
-create procedure registra_avion (in numero_de_serie int, in nombre varchar(50), in tipo varchar(45), in marca varchar(45), in modelo varchar(45), in capacidad int, in horas_vuelo int)
+create procedure registra_avion (in numero_de_serie int, in nombre varchar(50), in tipo int, in marca int, in modelo int, in capacidad int, in horas_vuel int)
 begin
-    INSERT INTO avion (numero_de_serie, nombre, tipo, marca, modelo, capacidad, horas_vuelo) 
-    VALUES (numero_de_serie, nombre, tipo, marca, modelo, capacidad, horas_vuelo);
+    INSERT INTO avion (numero_de_serie, nombre, id_tipo, id_marca, id_modelo, capacidad, horas_vuelo) 
+    VALUES (numero_de_serie, nombre, tipo, marca, modelo, capacidad, horas_vuel);
 end
 // delimiter 
 drop procedure registra_avion;
@@ -300,28 +301,23 @@ begin
 end
 // delimiter 
 
-
-
-
-
-
-
-
 #Registrar Tiquete
 delimiter //
-create procedure registra_vuelo (in id_avion int, in numero_de_serie int, in nombre varchar(50), in tipo varchar(45), in marca varchar(45), in modelo varchar(45), in capacidad int, in horas_vuelo int)
+create procedure registra_tiquete (in cliente int, in vuelo int, in tipo int )
 begin
-    INSERT INTO avion (id_avion,numero_de_serie, nombre, tipo, marca, modelo, capacidad, horas_vuelo) 
-    VALUES (id_avion,numero_de_serie, nombre, tipo, marca, modelo, capacidad, horas_vuelo);
+    INSERT INTO tiquete (id_cliente,id_vuelo,tipo) 
+    VALUES (cliente, vuelo, tipo);
 end
 // delimiter 
-drop procedure registra_vuelo;
+
+
+
+
 #Registrar Retraso
 delimiter //
-create procedure registra_vuelo (in id_avion int, in numero_de_serie int, in nombre varchar(50), in tipo varchar(45), in marca varchar(45), in modelo varchar(45), in capacidad int, in horas_vuelo int)
+create procedure registra_retraso (in id_avion int,)
 begin
-    INSERT INTO avion (id_avion,numero_de_serie, nombre, tipo, marca, modelo, capacidad, horas_vuelo) 
-    VALUES (id_avion,numero_de_serie, nombre, tipo, marca, modelo, capacidad, horas_vuelo);
+    UPDATE
 end
 // delimiter 
 drop procedure registra_vuelo;
