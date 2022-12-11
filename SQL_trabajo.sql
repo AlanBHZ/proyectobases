@@ -24,6 +24,11 @@ create table cliente(
     id_pais int not null,
     foreign key (id_pais) references pais(id_pais)
 );
+create table usuarios(
+	id_usuario int primary key,
+    contra varchar(45) not null,
+    usuario varchar(45) not null
+);
 create table tipo_avion(
  id_tipo int primary key auto_increment,
  nombre varchar(45)
@@ -139,7 +144,6 @@ VALUES ('Aeropuerto Internacional de Mexico', 1),
 ('Aeropuerto Internacional Guarulhos',3),
 ('Aeropuerto Internacional Jorge Chavez',4),
 ('Aeropuerto Internacional Carrasco',5);
-
 #Cliente
 INSERT INTO cliente VALUES (123456789, 'Juan', 'García', '2000-03-03', 'Calle Falsa 123', '55555555', 'juan.garcia@example.com', 1);
 INSERT INTO cliente VALUES (987654321, 'Maria', 'Perez', '1995-04-10', 'Calle Falsa 456', '66666666', 'maria.perez@example.com', 2);
@@ -156,6 +160,8 @@ INSERT INTO cliente VALUES(12345679, 'Maria', 'Gomez', '1990-04-15', 'Calle 456'
 INSERT INTO cliente VALUES(12345680, 'Jorge', 'Lopez', '1992-08-30', 'Calle 789', '12345680', 'jorgelopez@gmail.com',3);
 INSERT INTO cliente VALUES(12345681, 'Ana', 'Sanchez', '1996-11-10', 'Calle 987', '12345681', 'anasanchez@gmail.com',4);
 INSERT INTO cliente VALUES(12345682, 'Pedro', 'Gonzalez', '1998-07-20', 'Calle 654', '12345682', 'pedrogonzalez@gmail.com',5);
+
+insert into usuarios values (1,'123456',"cliente"),(2,'4567',"empleado");
 
 #Insertar datos en la tabla tipo
 INSERT INTO tipo_avion(nombre) VALUES('Avion de pasajeros'),
@@ -272,6 +278,14 @@ from vuelo v join estado e on e.id_estado = v.id_estado
 where e.id_estado = 3;
 select * from vuelos_retrasados;
 
+create view vuelos_disponibles as
+select  a.id_avion, a.nombre, v.id_vuelo, v.fecha, e.estado, v.comentarios 
+from vuelo v join estado e on e.id_estado = v.id_estado 
+			join avion a on a.id_avion = v.id_avion 
+where e.id_estado = 1 or e.id_estado = 6 or e.id_estado = 7 or e.id_estado = 8;
+select * from vuelos_disponibles;
+
+
 ########## PROCEDIMIENTOS ##########
 
 #Registrar clientes
@@ -310,17 +324,32 @@ begin
     VALUES (cliente, vuelo, tipo);
 end
 // delimiter 
+delimiter //
+create procedure asientos(in vuelo int, in estado varchar(45))
+begin
+	SELECT count(s.id_silla) 
+	FROM vuelo v join avion a on a.id_avion = v.id_avion 
+				 join silla s on s.id_avion = a.id_avion 
+	WHERE v.id_vuelo  = vuelo  and  s.estado = estado;
+end
+// delimiter 
+call asientos(3,'Disponible');
+
+
 
 
 
 
 #Registrar Retraso
 delimiter //
-create procedure registra_retraso (in id_avion int,)
+create procedure validar_usuario (in id int, in contras varchar(10))
 begin
-    UPDATE
+	select usuario from usuarios where id_usuario = id and contra = contras;
 end
 // delimiter 
+
+
+
 drop procedure registra_vuelo;
 #Registrar Llegada
 delimiter //
@@ -341,3 +370,4 @@ end
 // delimiter 
 drop procedure registra_vuelo;
 ########## TRIGGERS ##########
+
