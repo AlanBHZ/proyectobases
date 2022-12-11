@@ -7,15 +7,18 @@ import time
 from datetime import datetime, timedelta
 from colorama import init
 from colorama import Fore
-from tabulate import tabulate 
- 
+from tabulate import tabulate
+
 init(autoreset=True)
+
 
 def clear():
     if os.name == "nt":
         os.system("cls")
     else:
         os.system("clear")
+
+
 mydb = mysql.connector.connect(
     host="localhost",
     user="root",
@@ -28,483 +31,509 @@ mycursor = mydb.cursor()
 
 # Clase cliente
 
-class Pais ():
-  def __init__(self, id_pais, nombre_pais, region_pais):
-    self.id_pais = id_pais
-    self.nombre_pais = nombre_pais
-    self.region_pais = region_pais
+class Pais():
+    def __init__(self, id_pais, nombre_pais, region_pais):
+        self.id_pais = id_pais
+        self.nombre_pais = nombre_pais
+        self.region_pais = region_pais
 
-  def get_id_Pais(self):
-    return self.id_pais
+    def get_id_Pais(self):
+        return self.id_pais
 
-  def set_id_Pais(self, id_pais):
-    self.id_pais = id_pais
+    def set_id_Pais(self, id_pais):
+        self.id_pais = id_pais
 
-  def get_nombre_pais(self):
-    return self.nombre_pais
+    def get_nombre_pais(self):
+        return self.nombre_pais
 
-  def set_nombre_pais(self, nombre_pais):
-    self.nombre_pais = nombre_pais
+    def set_nombre_pais(self, nombre_pais):
+        self.nombre_pais = nombre_pais
 
-  def get_region_pais(self):
-    return self.region_pais
+    def get_region_pais(self):
+        return self.region_pais
 
-  def set_region_pais(self, region_pais):
-    self.region_pais = region_pais
+    def set_region_pais(self, region_pais):
+        self.region_pais = region_pais
 
-class Aeropuerto ():
-  def __init__(self, id_aeropuerto, nombre, id_pais):
-    self.id_aeropuerto = id_aeropuerto
-    self.nombre = nombre
-    self.id_pais = id_pais
 
-  def get_id_aeropuerto(self):
-    return self.id_aeropuerto
+class Aeropuerto():
+    def __init__(self, id_aeropuerto, nombre, id_pais):
+        self.id_aeropuerto = id_aeropuerto
+        self.nombre = nombre
+        self.id_pais = id_pais
 
-  def set_id_aeropuerto(self, id_aeropuerto):
-    self.id_aeropuerto = id_aeropuerto
+    def get_id_aeropuerto(self):
+        return self.id_aeropuerto
 
-  def get_nombre(self):
-    return self.nombre
+    def set_id_aeropuerto(self, id_aeropuerto):
+        self.id_aeropuerto = id_aeropuerto
 
-  def set_nombre(self, nombre):
-    self.nombre = nombre
+    def get_nombre(self):
+        return self.nombre
 
-  def get_id_pais(self):
-    return self.id_pais
+    def set_nombre(self, nombre):
+        self.nombre = nombre
 
-  def set_id_pais(self, id_pais):
-    self.id_pais = id_pais
+    def get_id_pais(self):
+        return self.id_pais
 
-class Cliente ():
-  def __init__(self, cedula, nombre, apellido, fecha_nac, direccion, telefono, correo, id_pais):
-    self.cedula = cedula
-    self.nombre = nombre
-    self.apellido = apellido
-    self.fecha_nac = fecha_nac
-    self.direccion = direccion
-    self.telefono = telefono
-    self.correo = correo
-    self.id_pais = id_pais
+    def set_id_pais(self, id_pais):
+        self.id_pais = id_pais
 
-  def get_cedula(self):
-    return self.cedula
 
-  def set_cedula(self, cedula):
-    self.cedula = cedula
+class Cliente():
+    def __init__(self, cedula, nombre, apellido, fecha_nac, direccion, telefono, correo, id_pais):
+        self.cedula = cedula
+        self.nombre = nombre
+        self.apellido = apellido
+        self.fecha_nac = fecha_nac
+        self.direccion = direccion
+        self.telefono = telefono
+        self.correo = correo
+        self.id_pais = id_pais
 
-  def get_nombre(self):
-    return self.nombre
+    def get_cedula(self):
+        return self.cedula
 
-  def set_nombre(self, nombre):
-    self.nombre = nombre
+    def set_cedula(self, cedula):
+        self.cedula = cedula
 
-  def get_apellido(self):
-    return self.apellido
+    def get_nombre(self):
+        return self.nombre
 
-  def set_apellido(self, apellido):
-    self.apellido = apellido
+    def set_nombre(self, nombre):
+        self.nombre = nombre
 
-  def get_fecha_nac(self):
-    return self.fecha_nac
+    def get_apellido(self):
+        return self.apellido
 
-  def set_fecha_nac(self, fecha_nac):
-    self.fecha_nac = fecha_nac
+    def set_apellido(self, apellido):
+        self.apellido = apellido
 
-  def get_direccion(self):
-    return self.direccion
+    def get_fecha_nac(self):
+        return self.fecha_nac
 
-  def set_direccion(self, direccion):
-    self.direccion = direccion
+    def set_fecha_nac(self, fecha_nac):
+        self.fecha_nac = fecha_nac
 
-  def get_telefono(self):
-    return self.telefono
+    def get_direccion(self):
+        return self.direccion
 
-  def set_telefono(self, telefono):
-    self.telefono = telefono
+    def set_direccion(self, direccion):
+        self.direccion = direccion
 
-  def get_correo(self):
-    return self.correo
+    def get_telefono(self):
+        return self.telefono
 
-  def set_correo(self, correo):
-    self.correo = correo
+    def set_telefono(self, telefono):
+        self.telefono = telefono
 
-  def get_id_pais(self):
-    return self.id_pais
+    def get_correo(self):
+        return self.correo
 
-  def set_id_pais(self, id_pais):
-    self.id_pais = id_pais
-class Tipo_avion ():
-  def __init__(self, id_tipo, nombre):
-    self.id_tipo = id_tipo
-    self.nombre = nombre
+    def set_correo(self, correo):
+        self.correo = correo
 
-  def get_id_tipo(self):
-    return self.id_tipo
+    def get_id_pais(self):
+        return self.id_pais
 
-  def set_id_tipo(self, id_tipo):
-    self.id_tipo = id_tipo
+    def set_id_pais(self, id_pais):
+        self.id_pais = id_pais
 
-  def get_nombre(self):
-    return self.nombre
 
-  def set_nombre(self, nombre):
-    self.nombre = nombre
+class Tipo_avion():
+    def __init__(self, id_tipo, nombre):
+        self.id_tipo = id_tipo
+        self.nombre = nombre
 
-class Marca ():
-  def __init__(self, id_marca, nombre):
-    self.id_marca = id_marca
-    self.nombre = nombre
+    def get_id_tipo(self):
+        return self.id_tipo
 
-  def get_id_marca(self):
-    return self.id_marca
+    def set_id_tipo(self, id_tipo):
+        self.id_tipo = id_tipo
 
-  def set_id_marca(self, id_marca):
-    self.id_marca = id_marca
+    def get_nombre(self):
+        return self.nombre
 
-  def get_nombre(self):
-    return self.nombre
+    def set_nombre(self, nombre):
+        self.nombre = nombre
 
-  def set_nombre(self, nombre):
-    self.nombre = nombre
 
-class Modelo ():
-  def __init__(self, id_modelo, nombre):
-    self.id_modelo = id_modelo
-    self.nombre = nombre
+class Marca():
+    def __init__(self, id_marca, nombre):
+        self.id_marca = id_marca
+        self.nombre = nombre
 
-  def get_id_modelo(self):
-    return self.id_modelo
+    def get_id_marca(self):
+        return self.id_marca
 
-  def set_id_modelo(self, id_modelo):
-    self.id_modelo = id_modelo
+    def set_id_marca(self, id_marca):
+        self.id_marca = id_marca
 
-  def get_nombre(self):
-    return self.nombre
+    def get_nombre(self):
+        return self.nombre
 
-  def set_nombre(self, nombre):
-    self.nombre = nombre
+    def set_nombre(self, nombre):
+        self.nombre = nombre
 
-class Avion ():
-  def __init__(self, numero_de_serie, nombre, id_tipo, id_marca, id_modelo, capacidad, horas_vuelo):
-    self.numero_de_serie = numero_de_serie
-    self.nombre = nombre
-    self.id_tipo = id_tipo
-    self.id_marca = id_marca
-    self.id_modelo = id_modelo
-    self.capacidad = capacidad
-    self.horas_vuelo = horas_vuelo
 
-  def get_numero_de_serie(self):
-    return self.numero_de_serie
+class Modelo():
+    def __init__(self, id_modelo, nombre):
+        self.id_modelo = id_modelo
+        self.nombre = nombre
 
-  def set_numero_de_serie(self, numero_de_serie):
-    self.numero_de_serie = numero_de_serie
+    def get_id_modelo(self):
+        return self.id_modelo
 
-  def get_nombre(self):
-    return self.nombre
+    def set_id_modelo(self, id_modelo):
+        self.id_modelo = id_modelo
 
-  def set_nombre(self, nombre):
-    self.nombre = nombre
+    def get_nombre(self):
+        return self.nombre
 
-  def get_id_tipo(self):
-    return self.id_tipo
+    def set_nombre(self, nombre):
+        self.nombre = nombre
 
-  def set_id_tipo(self, id_tipo):
-    self.id_tipo = id_tipo
 
-  def get_id_marca(self):
-    return self.id_marca
+class Avion():
+    def __init__(self, numero_de_serie, nombre, id_tipo, id_marca, id_modelo, capacidad, horas_vuelo):
+        self.numero_de_serie = numero_de_serie
+        self.nombre = nombre
+        self.id_tipo = id_tipo
+        self.id_marca = id_marca
+        self.id_modelo = id_modelo
+        self.capacidad = capacidad
+        self.horas_vuelo = horas_vuelo
 
-  def set_id_marca(self, id_marca):
-    self.id_marca = id_marca
+    def get_numero_de_serie(self):
+        return self.numero_de_serie
 
-  def get_id_modelo(self):
-    return self.id_modelo
+    def set_numero_de_serie(self, numero_de_serie):
+        self.numero_de_serie = numero_de_serie
 
-  def set_id_modelo(self, id_modelo):
-    self.id_modelo = id_modelo
+    def get_nombre(self):
+        return self.nombre
 
-  def get_capacidad(self):
-    return self.capacidad
+    def set_nombre(self, nombre):
+        self.nombre = nombre
 
-  def set_capacidad(self, capacidad):
-    self.capacidad = capacidad
+    def get_id_tipo(self):
+        return self.id_tipo
 
-  def get_horas_vuelo(self):
-    return self.horas_vuelo
+    def set_id_tipo(self, id_tipo):
+        self.id_tipo = id_tipo
 
-  def set_horas_vuelo(self, horas_vuelo):
-    self.horas_vuelo = horas_vuelo
+    def get_id_marca(self):
+        return self.id_marca
+
+    def set_id_marca(self, id_marca):
+        self.id_marca = id_marca
+
+    def get_id_modelo(self):
+        return self.id_modelo
+
+    def set_id_modelo(self, id_modelo):
+        self.id_modelo = id_modelo
+
+    def get_capacidad(self):
+        return self.capacidad
+
+    def set_capacidad(self, capacidad):
+        self.capacidad = capacidad
+
+    def get_horas_vuelo(self):
+        return self.horas_vuelo
+
+    def set_horas_vuelo(self, horas_vuelo):
+        self.horas_vuelo = horas_vuelo
+
 
 class Silla():
-  def __init__(self, id_silla, estado, n_silla, id_avion):
-    self.id_silla = id_silla
-    self.estado = estado
-    self.n_silla = n_silla
-    self.id_avion = id_avion
+    def __init__(self, id_silla, estado, n_silla, id_avion):
+        self.id_silla = id_silla
+        self.estado = estado
+        self.n_silla = n_silla
+        self.id_avion = id_avion
 
-  def get_id_silla(self):
-    return self.id_silla
+    def get_id_silla(self):
+        return self.id_silla
 
-  def set_id_silla(self, id_silla):
-    self.id_silla = id_silla
+    def set_id_silla(self, id_silla):
+        self.id_silla = id_silla
 
-  def get_estado(self):
-    return self.estado
+    def get_estado(self):
+        return self.estado
 
-  def set_estado(self, estado):
-    self.estado = estado
+    def set_estado(self, estado):
+        self.estado = estado
 
-  def get_n_silla(self):
-    return self.n_silla
+    def get_n_silla(self):
+        return self.n_silla
 
-  def set_n_silla(self, n_silla):
-    self.n_silla = n_silla
+    def set_n_silla(self, n_silla):
+        self.n_silla = n_silla
 
-  def get_id_avion(self):
-    return self.id_avion
+    def get_id_avion(self):
+        return self.id_avion
 
-  def set_id_avion(self, id_avion):
-    self.id_avion = id_avion
+    def set_id_avion(self, id_avion):
+        self.id_avion = id_avion
 
-class Estado ():
-  def __init__(self, id_estado, estado):
-    self.id_estado = id_estado
-    self.estado = estado
 
-  def get_id_estado(self):
-    return self.id_estado
+class Estado():
+    def __init__(self, id_estado, estado):
+        self.id_estado = id_estado
+        self.estado = estado
 
-  def set_id_estado(self, id_estado):
-    self.id_estado = id_estado
+    def get_id_estado(self):
+        return self.id_estado
 
-  def get_estado(self):
-    return self.estado
+    def set_id_estado(self, id_estado):
+        self.id_estado = id_estado
 
-  def set_estado(self, estado):
-    self.estado = estado
-class Vuelo ():
-  def __init__(self, fecha, horaSalida, horaLlegada, numero_Pista, comentarios, id_avion, id_aeropuerto_origen, id_aeropuerto_destino, id_estado):
-    self.fecha = fecha
-    self.horaSalida = horaSalida
-    self.horaLlegada = horaLlegada
-    self.numero_Pista = numero_Pista
-    self.comentarios = comentarios
-    self.id_avion = id_avion
-    self.id_aeropuerto_origen = id_aeropuerto_origen
-    self.id_aeropuerto_destino = id_aeropuerto_destino
-    self.id_estado = id_estado
+    def get_estado(self):
+        return self.estado
 
-  def get_fecha(self):
-    return self.fecha
+    def set_estado(self, estado):
+        self.estado = estado
 
-  def set_fecha(self, fecha):
-    self.fecha = fecha
 
-  def get_horaSalida(self):
-    return self.horaSalida
+class Vuelo():
+    def __init__(self, fecha, horaSalida, horaLlegada, numero_Pista, comentarios, id_avion, id_aeropuerto_origen,
+                 id_aeropuerto_destino, id_estado):
+        self.fecha = fecha
+        self.horaSalida = horaSalida
+        self.horaLlegada = horaLlegada
+        self.numero_Pista = numero_Pista
+        self.comentarios = comentarios
+        self.id_avion = id_avion
+        self.id_aeropuerto_origen = id_aeropuerto_origen
+        self.id_aeropuerto_destino = id_aeropuerto_destino
+        self.id_estado = id_estado
 
-  def set_horaSalida(self, horaSalida):
-    self.horaSalida = horaSalida
+    def get_fecha(self):
+        return self.fecha
 
-  def get_horaLlegada(self):
-    return self.horaLlegada
+    def set_fecha(self, fecha):
+        self.fecha = fecha
 
-  def set_horaLlegada(self, horaLlegada):
-    self.horaLlegada = horaLlegada
+    def get_horaSalida(self):
+        return self.horaSalida
 
-  def get_numero_Pista(self):
-    return self.numero_Pista
+    def set_horaSalida(self, horaSalida):
+        self.horaSalida = horaSalida
 
-  def set_numero_Pista(self, numero_Pista):
-    self.numero_Pista = numero_Pista
+    def get_horaLlegada(self):
+        return self.horaLlegada
 
-  def get_comentarios(self):
-    return self.comentarios
+    def set_horaLlegada(self, horaLlegada):
+        self.horaLlegada = horaLlegada
 
-  def set_comentarios(self, comentarios):
-    self.comentarios = comentarios
+    def get_numero_Pista(self):
+        return self.numero_Pista
 
-  def get_id_avion(self):
-    return self.id_avion
+    def set_numero_Pista(self, numero_Pista):
+        self.numero_Pista = numero_Pista
 
-  def set_id_avion(self, id_avion):
-    self.id_avion = id_avion
+    def get_comentarios(self):
+        return self.comentarios
 
-  def get_id_aeropuerto_origen(self):
-    return self.id_aeropuerto_origen
+    def set_comentarios(self, comentarios):
+        self.comentarios = comentarios
 
-  def set_id_aeropuerto_origen(self, id_aeropuerto_origen):
-    self.id_aeropuerto_origen = id_aeropuerto_origen
+    def get_id_avion(self):
+        return self.id_avion
 
-  def get_id_aeropuerto_destino(self):
-    return self.id_aeropuerto_destino
+    def set_id_avion(self, id_avion):
+        self.id_avion = id_avion
 
-  def set_id_aeropuerto_destino(self, id_aeropuerto_destino):
-    self.id_aeropuerto_destino = id_aeropuerto_destino
+    def get_id_aeropuerto_origen(self):
+        return self.id_aeropuerto_origen
 
-  def get_id_estado(self):
-    return self.id_estado
+    def set_id_aeropuerto_origen(self, id_aeropuerto_origen):
+        self.id_aeropuerto_origen = id_aeropuerto_origen
 
-  def set_id_estado(self, id_estado):
-    self.id_estado = id_estado
+    def get_id_aeropuerto_destino(self):
+        return self.id_aeropuerto_destino
 
-class Tipo_tiquete ():
-  def __init__(self, id_tipo, nombre):
-    self.id_tipo = id_tipo
-    self.nombre = nombre
+    def set_id_aeropuerto_destino(self, id_aeropuerto_destino):
+        self.id_aeropuerto_destino = id_aeropuerto_destino
 
-  def get_id_tipo(self):
-    return self.id_tipo
+    def get_id_estado(self):
+        return self.id_estado
 
-  def set_id_tipo(self, id_tipo):
-    self.id_tipo = id_tipo
+    def set_id_estado(self, id_estado):
+        self.id_estado = id_estado
 
-  def get_nombre(self):
-    return self.nombre
 
-  def set_nombre(self, nombre):
-    self.nombre = nombre
+class Tipo_tiquete():
+    def __init__(self, id_tipo, nombre):
+        self.id_tipo = id_tipo
+        self.nombre = nombre
 
-class Tiquete ():
-  def __init__(self, id_cliente, id_vuelo, tipo):
-    self.id_cliente = id_cliente
-    self.id_vuelo = id_vuelo
-    self.tipo = tipo
+    def get_id_tipo(self):
+        return self.id_tipo
 
-  def get_id_cliente(self):
-    return self.id_cliente
+    def set_id_tipo(self, id_tipo):
+        self.id_tipo = id_tipo
 
-  def set_id_cliente(self, id_cliente):
-    self.id_cliente = id_cliente
+    def get_nombre(self):
+        return self.nombre
 
-  def get_id_vuelo(self):
-    return self.id_vuelo
+    def set_nombre(self, nombre):
+        self.nombre = nombre
 
-  def set_id_vuelo(self, id_vuelo):
-    self.id_vuelo = id_vuelo
 
-  def get_tipo(self):
-    return self.tipo
+class Tiquete():
+    def __init__(self, id_cliente, id_vuelo, tipo):
+        self.id_cliente = id_cliente
+        self.id_vuelo = id_vuelo
+        self.tipo = tipo
 
-  def set_tipo(self, tipo):
-    self.tipo = tipo
+    def get_id_cliente(self):
+        return self.id_cliente
 
-class Estado ():
-  def __init__(self, id_estado, estado):
-    self.id_estado = id_estado
-    self.estado = estado
+    def set_id_cliente(self, id_cliente):
+        self.id_cliente = id_cliente
 
-  def get_id_estado(self):
-    return self.id_estado
+    def get_id_vuelo(self):
+        return self.id_vuelo
 
-  def set_id_estado(self, id_estado):
-    self.id_estado = id_estado
+    def set_id_vuelo(self, id_vuelo):
+        self.id_vuelo = id_vuelo
 
-  def get_estado(self):
-    return self.estado
+    def get_tipo(self):
+        return self.tipo
 
-  def set_estado(self, estado):
-    self.estado = estado
+    def set_tipo(self, tipo):
+        self.tipo = tipo
+
+
+class Estado():
+    def __init__(self, id_estado, estado):
+        self.id_estado = id_estado
+        self.estado = estado
+
+    def get_id_estado(self):
+        return self.id_estado
+
+    def set_id_estado(self, id_estado):
+        self.id_estado = id_estado
+
+    def get_estado(self):
+        return self.estado
+
+    def set_estado(self, estado):
+        self.estado = estado
+
+
 def registrar_cliente(self):
     sql = "call registra_cliente(%s, %s, %s, %s, %s, %s, %s, %s)"
-    val = (self.cedula, self.nombre, self.apellido,self.fecha_nac, self.direccion, self.telefono,self.correo,self.id_pais)
+    val = (
+    self.cedula, self.nombre, self.apellido, self.fecha_nac, self.direccion, self.telefono, self.correo, self.id_pais)
     mycursor.execute(sql, val)
     mydb.commit()
-    print(mycursor.rowcount, Fore.GREEN+"Inserción realizada.")
-    print(Fore.GREEN+"Se ha registrado satisfactoriamente")
+    print(mycursor.rowcount, Fore.GREEN + "Inserción realizada.")
+    print(Fore.GREEN + "Se ha registrado satisfactoriamente")
 
 
 def registrar_avion(self):
     sql = "call registra_avion( %s, %s, %s, %s, %s, %s, %s)"
-    val = (self.numero_de_serie,self.nombre, self.id_tipo, self.id_marca, self.id_modelo, self.capacidad,self.horas_vuelo)
+    val = (
+    self.numero_de_serie, self.nombre, self.id_tipo, self.id_marca, self.id_modelo, self.capacidad, self.horas_vuelo)
     mycursor.execute(sql, val)
     mydb.commit()
-    print(mycursor.rowcount, Fore.GREEN+"record inserted.")
-    print(Fore.GREEN+"Se ha registrado el avion satisfactoriamente")
+    print(mycursor.rowcount, Fore.GREEN + "record inserted.")
+    print(Fore.GREEN + "Se ha registrado el avion satisfactoriamente")
+
 
 def registrarPersona():
     clear()
-    cedula = input(Fore.LIGHTBLACK_EX+"Ingrese la cedula del cliente: ")
+    cedula = input(Fore.LIGHTBLACK_EX + "Ingrese la cedula del cliente: ")
     existe = True
     while existe:
         mycursor.execute("SELECT * FROM cliente")
         myresult = mycursor.fetchall()
         for x in myresult:
             if x[0] == cedula:
-                print(Fore.RED+"La cedula del cliente ya existe")
-                cedula = input(Fore.LIGHTBLACK_EX+"Ingrese nuevamente la cedula del cliente: ")
+                print(Fore.RED + "La cedula del cliente ya existe")
+                cedula = input(Fore.LIGHTBLACK_EX + "Ingrese nuevamente la cedula del cliente: ")
             else:
                 existe = False
-    nombre = input(Fore.LIGHTBLACK_EX+"Ingrese el nombre del cliente: ")
-    apellido = input(Fore.LIGHTBLACK_EX+"Ingrese el apellido del cliente: ")
-    fecha = input(Fore.LIGHTBLACK_EX+"Ingrese la fecha de nacimiento del cliente: ")
-    direccion = input(Fore.LIGHTBLACK_EX+"Ingrese la direccion del cliente: ")
-    telefono = input(Fore.LIGHTBLACK_EX+"Ingrese el telefono del cliente: ")
-    correo = input(Fore.LIGHTBLACK_EX+"Ingrese el correo del cliente: ")
-    id_pais = input(Fore.LIGHTBLACK_EX+"Ingrese el id del pais del cliente: ")
+    nombre = input(Fore.LIGHTBLACK_EX + "Ingrese el nombre del cliente: ")
+    apellido = input(Fore.LIGHTBLACK_EX + "Ingrese el apellido del cliente: ")
+    fecha = input(Fore.LIGHTBLACK_EX + "Ingrese la fecha de nacimiento del cliente: ")
+    direccion = input(Fore.LIGHTBLACK_EX + "Ingrese la direccion del cliente: ")
+    telefono = input(Fore.LIGHTBLACK_EX + "Ingrese el telefono del cliente: ")
+    correo = input(Fore.LIGHTBLACK_EX + "Ingrese el correo del cliente: ")
+    id_pais = input(Fore.LIGHTBLACK_EX + "Ingrese el id del pais del cliente: ")
     print(cedula, nombre, apellido, fecha, direccion, telefono, correo, id_pais)
     cliente = Cliente(cedula, nombre, apellido, fecha, direccion, telefono, correo, id_pais)
 
     registrar_cliente(cliente)
+
+
 # Avion
-def validar(id,nombre_tabla):
-    mycursor.execute("SELECT * FROM "+nombre_tabla)
+def validar(id, nombre_tabla):
+    mycursor.execute("SELECT * FROM " + nombre_tabla)
     myresult = mycursor.fetchall()
     for x in myresult:
         if int(id) == int(x[0]):
             return True
             break
     return False
+
+
 def registrarAvion():
     clear()
     # Se valida que el numero de serie de avion no exista
-    numero_serie = input(Fore.LIGHTBLACK_EX+"Ingrese el numero de serie de avion: ")
-    nombre = input(Fore.LIGHTBLACK_EX+"Ingrese el nombre de avion: ")
+    numero_serie = input(Fore.LIGHTBLACK_EX + "Ingrese el numero de serie de avion: ")
+    nombre = input(Fore.LIGHTBLACK_EX + "Ingrese el nombre de avion: ")
     mycursor.execute("SELECT * FROM tipo_avion")
     myresult = mycursor.fetchall()
-    print(Fore.YELLOW + tabulate(myresult, headers=["ID TIPO", "TIPO DE AVIÓN"],tablefmt="fancy_grid"))
+    print(Fore.YELLOW + tabulate(myresult, headers=["ID TIPO", "TIPO DE AVIÓN"], tablefmt="fancy_grid"))
     tipo = input(Fore.LIGHTBLACK_EX + "Ingrese el id tipo de avion: ")
-    exite = validar(tipo,"tipo_avion")
+    exite = validar(tipo, "tipo_avion")
     while not exite:
-        tipo = input(Fore.LIGHTBLACK_EX+"Ingrese el id tipo de avion: ")
-        exite = validar(tipo,"tipo_avion")
+        tipo = input(Fore.LIGHTBLACK_EX + "Ingrese el id tipo de avion: ")
+        exite = validar(tipo, "tipo_avion")
 
     mycursor.execute("SELECT * FROM marca")
     myresult = mycursor.fetchall()
     print(Fore.YELLOW + tabulate(myresult, headers=["ID MARCA", "MARCA DE AVIÓN"], tablefmt="fancy_grid"))
-    marca = input(Fore.LIGHTBLACK_EX+"Ingrese la marca del avion: ")
+    marca = input(Fore.LIGHTBLACK_EX + "Ingrese la marca del avion: ")
     exite = validar(marca, "marca")
     while not exite:
-        marca = input(Fore.LIGHTBLACK_EX+"Ingrese la marca del avion: ")
-        exite = validar(marca,"marca")
+        marca = input(Fore.LIGHTBLACK_EX + "Ingrese la marca del avion: ")
+        exite = validar(marca, "marca")
 
     mycursor.execute("SELECT * FROM modelo")
     myresult = mycursor.fetchall()
     print(Fore.YELLOW + tabulate(myresult, headers=["ID MODELO", "MODELO DE AVIÓN"], tablefmt="fancy_grid"))
-    modelo = input(Fore.LIGHTBLACK_EX+"Ingrese el modelo del avion: ")
+    modelo = input(Fore.LIGHTBLACK_EX + "Ingrese el modelo del avion: ")
     exite = validar(modelo, "modelo")
     while not exite:
-        modelo = input(Fore.LIGHTBLACK_EX+"Ingrese el modelo del avion: ")
+        modelo = input(Fore.LIGHTBLACK_EX + "Ingrese el modelo del avion: ")
         exite = validar(modelo, "modelo")
 
-    capacidad = input(Fore.LIGHTBLACK_EX+"Ingrese la capacidad del avion: ")
-    horas = input(Fore.LIGHTBLACK_EX+"Ingrese la horas de vuelo del avion: ")
+    capacidad = input(Fore.LIGHTBLACK_EX + "Ingrese la capacidad del avion: ")
+    horas = input(Fore.LIGHTBLACK_EX + "Ingrese la horas de vuelo del avion: ")
     avion = Avion(numero_serie, nombre, tipo, marca, modelo, capacidad, horas)
     registrar_avion(avion)
+
+
 # Vuelo
 
 def registrar_vuelo(self):
-
     sql = "call registra_vuelo (%s,%s,%s,%s,%s,%s,%s,%s,%s)"
     val = (
-    self.fecha, self.horaSalida, self.horaLlegada, self.numero_Pista, self.comentarios,
-    self.id_avion, self.id_aeropuerto_origen, self.id_aeropuerto_destino, self.id_estado)
+        self.fecha, self.horaSalida, self.horaLlegada, self.numero_Pista, self.comentarios,
+        self.id_avion, self.id_aeropuerto_origen, self.id_aeropuerto_destino, self.id_estado)
 
     mycursor.execute(sql, val)
     mydb.commit()
-    print(mycursor.rowcount, Fore.GREEN+"Vuelo creado exitosamente")
+    print(mycursor.rowcount, Fore.GREEN + "Vuelo creado exitosamente")
+
 
 ######################### PONER ÉSTE MÉTODO COMO UN TRIGGER #########################
 def validarNumeroVuelo(numero_de_vuelo):
@@ -514,8 +543,8 @@ def validarNumeroVuelo(numero_de_vuelo):
         myresult = mycursor.fetchall()
         for x in myresult:
             if x[0] == numero_de_vuelo:
-                print(Fore.RED+"El numero de vuelo ya existe")
-                numero_de_vuelo = input(Fore.LIGHTBLACK_EX+"Ingrese nuevamente el numero de vuelo: ")
+                print(Fore.RED + "El numero de vuelo ya existe")
+                numero_de_vuelo = input(Fore.LIGHTBLACK_EX + "Ingrese nuevamente el numero de vuelo: ")
             else:
                 existe = False
     return numero_de_vuelo
@@ -530,26 +559,26 @@ def validarNumeroAvion(numero_de_avion):
             if str(x[0]) == str(numero_de_avion):
                 return numero_de_avion
             else:
-                numero_de_avion = input(Fore.LIGHTBLACK_EX+"Ingrese nuevamente el numero de avion: ")
+                numero_de_avion = input(Fore.LIGHTBLACK_EX + "Ingrese nuevamente el numero de avion: ")
     return numero_de_avion
 
 
 def registrarVuelo():
     clear()
     # Se valida que el numero de vuelo no exista
-    id_vuelo = input(Fore.LIGHTBLACK_EX+"Ingrese el numero de vuelo: ")
+    id_vuelo = input(Fore.LIGHTBLACK_EX + "Ingrese el numero de vuelo: ")
     numero_de_vuelo = validarNumeroVuelo(id_vuelo)
     # Se valida que el numero de avion exista
-    fecha = input(Fore.LIGHTBLACK_EX+"Ingrese el fecha: ")
-    #numero_de_avion = validarNumeroAvion(numero_de_avion)
-    horaS = input(Fore.LIGHTBLACK_EX+"Ingrese la hora de salida: ")
-    numero_p = input(Fore.LIGHTBLACK_EX+"Ingrese el numero de pista: ")
-    comentarios = input(Fore.LIGHTBLACK_EX+"Ingrese los comentarios del vuelo: ")
-    id_avion = input(Fore.LIGHTBLACK_EX+"Ingrese el id del avion: ")
-    id_ao = input(Fore.LIGHTBLACK_EX+"Ingrese el id del aeropuerto de origen: ")
-    id_ad = input(Fore.LIGHTBLACK_EX+"Ingrese el id del aeropuerto del destino: ")
-    vuelo = Vuelo(id_vuelo, fecha, horaS,'00:00:00', numero_p, comentarios,
-                  id_avion, id_ao, id_ad,1)
+    fecha = input(Fore.LIGHTBLACK_EX + "Ingrese el fecha: ")
+    # numero_de_avion = validarNumeroAvion(numero_de_avion)
+    horaS = input(Fore.LIGHTBLACK_EX + "Ingrese la hora de salida: ")
+    numero_p = input(Fore.LIGHTBLACK_EX + "Ingrese el numero de pista: ")
+    comentarios = input(Fore.LIGHTBLACK_EX + "Ingrese los comentarios del vuelo: ")
+    id_avion = input(Fore.LIGHTBLACK_EX + "Ingrese el id del avion: ")
+    id_ao = input(Fore.LIGHTBLACK_EX + "Ingrese el id del aeropuerto de origen: ")
+    id_ad = input(Fore.LIGHTBLACK_EX + "Ingrese el id del aeropuerto del destino: ")
+    vuelo = Vuelo(id_vuelo, fecha, horaS, '00:00:00', numero_p, comentarios,
+                  id_avion, id_ao, id_ad, 1)
     registrar_vuelo(vuelo)
 
 
@@ -562,7 +591,7 @@ def registrar_tiquete(self):
 
     mycursor.execute(sql, val)
     mydb.commit()
-    print(mycursor.rowcount, Fore.GREEN+"Tiquete creado exitosamente")
+    print(mycursor.rowcount, Fore.GREEN + "Tiquete creado exitosamente")
 
 
 def validarNumeroTiquete(numero_de_tiquete_id):
@@ -572,8 +601,8 @@ def validarNumeroTiquete(numero_de_tiquete_id):
         myresult = mycursor.fetchall()
         for x in myresult:
             if str(x[0]) == str(numero_de_tiquete_id):
-                print(Fore.RED+"El numero de tiquete ya existe")
-                numero_de_tiquete_id = input(Fore.LIGHTBLACK_EX+"Ingrese nuevamente el numero de tiquete: ")
+                print(Fore.RED + "El numero de tiquete ya existe")
+                numero_de_tiquete_id = input(Fore.LIGHTBLACK_EX + "Ingrese nuevamente el numero de tiquete: ")
             else:
                 existe = False
     return numero_de_tiquete_id
@@ -587,18 +616,15 @@ def validarCedula(cedula):
         for x in myresult:
             if str(x[0]) == str(cedula):
                 return cedula
-        cedula = input(Fore.LIGHTBLACK_EX+"Ingrese nuevamente la cedula: ")
+        cedula = input(Fore.LIGHTBLACK_EX + "Ingrese nuevamente la cedula: ")
     return cedula
 
 
 def mostrarAsientosOcupados(numero_de_vuelo_id):
-    mycursor.execute("SELECT s.id_silla FROM vuelo v join avion a on a.id_avion = v.id_avion join silla s on s.id_avion = a.id_avion WHERE v.id_vuelo  = " + numero_de_vuelo_id + " and  s.estado = 'Disponible'")
+    mycursor.execute(
+        "SELECT s.id_silla FROM vuelo v join avion a on a.id_avion = v.id_avion join silla s on s.id_avion = a.id_avion WHERE v.id_vuelo  = " + numero_de_vuelo_id + " and  s.estado = 'Ocupado'")
     myresult = mycursor.fetchall()
-    asientos = []
-    for x in myresult:
-        x[0]
-        asientos.append(x[0])
-    return asientos
+    return len(myresult)
 
 
 def validar_asiento(numero_de_asiento, asientos):
@@ -607,18 +633,19 @@ def validar_asiento(numero_de_asiento, asientos):
     while existe:
         for x in asientos:
             if x == int(numero_de_asiento):
-                sql = "update silla set estado = 'Ocupado' where id_silla ="+numero_de_asiento
+                sql = "update silla set estado = 'Ocupado' where id_silla =" + numero_de_asiento
                 mycursor.execute(sql)
                 mydb.commit()
                 existe = False
         if existe:
-            print(Fore.RED+"El numero de asiento ya esta ocupado")
-            numero_de_asiento = input(Fore.LIGHTBLACK_EX+"Ingrese nuevamente el asiento: ")
+            print(Fore.RED + "El numero de asiento ya esta ocupado")
+            numero_de_asiento = input(Fore.LIGHTBLACK_EX + "Ingrese nuevamente el asiento: ")
     return numero_de_asiento
 
 
 def cantidad_asientos_vuelo_actual(numero_de_vuelo_id):
-    mycursor.execute("select capacidad from avion a join vuelo v on a.id_avion = v.id_avion where v.id_vuelo = " + numero_de_vuelo_id)
+    mycursor.execute(
+        "SELECT s.id_silla FROM vuelo v join avion a on a.id_avion = v.id_avion join silla s on s.id_avion = a.id_avion WHERE v.id_vuelo  = " + numero_de_vuelo_id + " and  s.estado = 'Disponible'")
     myresult = mycursor.fetchall()
     asientos = 0
     for x in myresult:
@@ -627,44 +654,41 @@ def cantidad_asientos_vuelo_actual(numero_de_vuelo_id):
 
 
 def validarEstadoVuelo(numero_de_vuelo_id):
-    mycursor.execute("SELECT e.estado FROM vuelo v join estado e on e.id_estado = v.id_estado WHERE v.id_vuelo = " + numero_de_vuelo_id)
+    mycursor.execute(
+        "SELECT e.estado FROM vuelo v join estado e on e.id_estado = v.id_estado WHERE v.id_vuelo = " + numero_de_vuelo_id)
     myresult = mycursor.fetchall()
     estado = ""
     for x in myresult:
         estado = x[0]
     return estado
 
+
 def registrarTiquete():
     # Se valida que el numero de vuelo exista
-    id_tiquete = input(Fore.LIGHTBLACK_EX+"Ingrese el numero de tiquete: ")
-    numero_de_tiquete_id = validarNumeroTiquete(id_tiquete)
     # Se valida que la cedula exista
-    id_cliente = input(Fore.LIGHTBLACK_EX+"Ingrese la cedula: ")
+    id_cliente = input(Fore.LIGHTBLACK_EX + "Ingrese la cedula: ")
     cedula = validarCedula(id_cliente)
     # Se valida que el numero de vuelo exista
-    id_vuelo = input(Fore.LIGHTBLACK_EX+"Ingrese el numero de vuelo: ")
+    id_vuelo = input(Fore.LIGHTBLACK_EX + "Ingrese el numero de vuelo: ")
     numero_de_vuelo_id = validarNumeroVuelo(id_vuelo)
     salida_vuelo = validarEstadoVuelo(numero_de_vuelo_id)
-    if (salida_vuelo != "Activo" ):
-        print(Fore.RED+"El vuelo se encuentra disponible, no es posible registrar tiquetes")
+    if (salida_vuelo != "Activo"):
+        print(Fore.RED + "El vuelo se encuentra disponible, no es posible registrar tiquetes")
         return
     # Se valida que el asiento no este ocupado
-    print(Fore.BLUE+"Asientos Ocupados: ")
-    asientos = mostrarAsientosOcupados(id_vuelo)
-    cantidad_asientos = len(asientos)
-
-    print(cantidad_asientos)
+    print(Fore.BLUE + "Asientos Ocupados: ",mostrarAsientosOcupados(id_vuelo))
     asientos_vuelo = cantidad_asientos_vuelo_actual(numero_de_vuelo_id)
 
-    print(Fore.BLUE+"Asientos disponibles: ", (int(asientos_vuelo) - int(cantidad_asientos)))
+    print(Fore.BLUE + "Asientos disponibles: ", (int(asientos_vuelo) - int(cantidad_asientos)))
     if ((int(asientos_vuelo) - int(cantidad_asientos))) >= int(0):
-        numero_de_asiento = input(Fore.LIGHTBLACK_EX+"Ingrese el numero de asiento: ")
+        numero_de_asiento = input(Fore.LIGHTBLACK_EX + "Ingrese el numero de asiento: ")
         validar_asiento(numero_de_asiento, asientos)
-        tipo = input(Fore.LIGHTBLACK_EX+"Ingrese el tipo de tiquete: ")
+        tipo = input(Fore.LIGHTBLACK_EX + "Ingrese el tipo de tiquete: ")
         tiquete = Tiquete(id_tiquete, id_cliente, id_vuelo, tipo)
         registrar_tiquete(tiquete)
     else:
-        print(Fore.RED+"No hay asientos disponibles")
+        print(Fore.RED + "No hay asientos disponibles")
+
 
 ###SALIDA VUELOS
 
@@ -673,19 +697,22 @@ def salidaVuelos():
 
     horaActual = horaActual.strftime('%H:%M:%S')
     print(horaActual)
-    mycursor.execute("SELECT id_vuelo,id_estado FROM vuelo where id_estado = 1 or id_estado = 6 or id_estado =7 or id_estado = 8 and id_estado = 10")
+    mycursor.execute(
+        "SELECT id_vuelo,id_estado FROM vuelo where id_estado = 1 or id_estado = 6 or id_estado =7 or id_estado = 8 and id_estado = 10")
     myresult = mycursor.fetchall()
     for x in myresult:
         print(x[0])
         if (len(myresult) != 0):
             mycursor.execute(
-                "UPDATE vuelo SET id_estado = 11,horaSalida = NOW(), comentarios='El vuelo en vuelo' WHERE id_vuelo ="+ str(x[0]))
+                "UPDATE vuelo SET id_estado = 11,horaSalida = NOW(), comentarios='El vuelo en vuelo' WHERE id_vuelo =" + str(
+                    x[0]))
             mydb.commit()
             print(mycursor.rowcount, "record(s) affected")
-            print(Fore.YELLOW+"EL vuelo identificado "+ str(x[0]) +" esta en vuelo y salio a las: ", horaActual)
+            print(Fore.YELLOW + "EL vuelo identificado " + str(x[0]) + " esta en vuelo y salio a las: ", horaActual)
         else:
-            print(Fore.RED+"El no hay vuelos listos")
-        print(mycursor.rowcount, Fore.GREEN+"record(s) affected")
+            print(Fore.RED + "El no hay vuelos listos")
+        print(mycursor.rowcount, Fore.GREEN + "record(s) affected")
+
 
 def cambioEstadoVuelo(numero_de_vuelo_id, comentrario):
     sql = "UPDATE vuelo SET id_estado = 3,comentarios = %s WHERE id_vuelo = %s"
@@ -693,11 +720,13 @@ def cambioEstadoVuelo(numero_de_vuelo_id, comentrario):
 
     mycursor.execute(sql, val)
     mydb.commit()
-    print(mycursor.rowcount, Fore.GREEN+"record(s) affected")
+    print(mycursor.rowcount, Fore.GREEN + "record(s) affected")
+
 
 def RetrasoArreglado(numero_de_vuelo_id):
     # Pedirle al usuario que ingrese el numero de vuelo
-    estadoSiguiente = input(Fore.LIGHTBLACK_EX+"Digite el nuevo estado del vuelo: 1. En espera 2. En vuelo 3. Retraso")
+    estadoSiguiente = input(
+        Fore.LIGHTBLACK_EX + "Digite el nuevo estado del vuelo: 1. En espera 2. En vuelo 3. Retraso")
     estadovuelo = "Retraso"
     if (estadoSiguiente == str(1)):
         estadovuelo = "En espera"
@@ -709,7 +738,7 @@ def RetrasoArreglado(numero_de_vuelo_id):
 
     mycursor.execute(sql, val)
     mydb.commit()
-    print(mycursor.rowcount, Fore.GREEN+"record(s) affected")
+    print(mycursor.rowcount, Fore.GREEN + "record(s) affected")
     # cambio comentario
     sqll = "UPDATE vuelo SET comentarios = %s WHERE numero_de_vuelo = %s"
     vall = (comentrario, numero_de_vuelo_id)
@@ -717,26 +746,27 @@ def RetrasoArreglado(numero_de_vuelo_id):
     mycursor.execute(sqll, vall)
     mydb.commit()
 
+
 # Menu
 def retrasoVuelo():
-    numero_de_vuelo_id = input(Fore.LIGHTBLACK_EX+"Ingrese el numero de vuelo: ")
+    numero_de_vuelo_id = input(Fore.LIGHTBLACK_EX + "Ingrese el numero de vuelo: ")
     existe = False
     while not existe:
-        mycursor.execute("SELECT id_estado FROM vuelo where id_vuelo="+numero_de_vuelo_id)
+        mycursor.execute("SELECT id_estado FROM vuelo where id_vuelo=" + numero_de_vuelo_id)
 
         myresult = mycursor.fetchall()
-        if(len(myresult)!=0):
-            existe=True
+        if (len(myresult) != 0):
+            existe = True
         for x in myresult:
             print(x[0])
-            if(int(x[0]) != 1 and x[0] != 7 and x[0] != 8):
-                print(Fore.RED+"No se le puede cambiar el estado al vuelo :",numero_de_vuelo_id)
+            if (int(x[0]) != 1 and x[0] != 7 and x[0] != 8):
+                print(Fore.RED + "No se le puede cambiar el estado al vuelo :", numero_de_vuelo_id)
                 menu()
                 break
         if existe == False:
-            print(Fore.RED+"El numero de vuelo no existe")
+            print(Fore.RED + "El numero de vuelo no existe")
             menu()
-        comentarios = input(Fore.LIGHTBLACK_EX+"Ingrese los comentarios del vuelo: ")
+        comentarios = input(Fore.LIGHTBLACK_EX + "Ingrese los comentarios del vuelo: ")
         cambioEstadoVuelo(numero_de_vuelo_id, comentarios)
         break
 
@@ -745,79 +775,93 @@ def llegadaVuelo(id_vuelo):
     horaActual = datetime.now().time()
     horaActual = horaActual.strftime('%H:%M:%S')
     print(horaActual)
-    mycursor.execute("SELECT id_estado FROM vuelo where id_vuelo="+id_vuelo)
+    mycursor.execute("SELECT id_estado FROM vuelo where id_vuelo=" + id_vuelo)
     myresult = mycursor.fetchall()
     print(myresult[0][0])
-    if(len(myresult) != 0):
-        if(myresult[0][0] == 11):
+    if (len(myresult) != 0):
+        if (myresult[0][0] == 11):
 
-            mycursor.execute("UPDATE vuelo SET id_estado = 5,horaLlegada = NOW(), comentarios='El vuelo finalizado' WHERE id_vuelo ="+id_vuelo)
+            mycursor.execute(
+                "UPDATE vuelo SET id_estado = 5,horaLlegada = NOW(), comentarios='El vuelo finalizado' WHERE id_vuelo =" + id_vuelo)
             mydb.commit()
             print(mycursor.rowcount, "record(s) affected")
-            print(Fore.YELLOW+"EL vuelo ha finalizado a las: ",horaActual)
+            print(Fore.YELLOW + "EL vuelo ha finalizado a las: ", horaActual)
         else:
-            print(Fore.RED+"El vuelo no esta en vuelo")
+            print(Fore.RED + "El vuelo no esta en vuelo")
     else:
-        print(Fore.RED+"El vuelo no existe")
+        print(Fore.RED + "El vuelo no existe")
 
 
 def listarClientesVuelo():
     mycursor.execute("SELECT * FROM clientes_vuelo")
     myresult = mycursor.fetchall()
-    print(Fore.YELLOW+tabulate(myresult, headers = ["CÉDULA", "CLIENTE", "N° VUELO", "FECHA", "HORA DE SALIDA", "HORA DE LLEGADA", "COMENTARIO"], tablefmt = "fancy_grid"))
+    print(Fore.YELLOW + tabulate(myresult,
+                                 headers=["CÉDULA", "CLIENTE", "N° VUELO", "FECHA", "HORA DE SALIDA", "HORA DE LLEGADA",
+                                          "COMENTARIO"], tablefmt="fancy_grid"))
 
 
 def listarAvionesListosPartir():
     mycursor.execute("SELECT * FROM aviones_listos")
     myresult = mycursor.fetchall()
-    print(Fore.YELLOW+tabulate(myresult, headers = ["N° AVIÓN", "NOMBRE DEL AVIÓN", "N° VUELO", "FECHA", "ESTADO"], tablefmt = "fancy_grid"))
-    
+    print(Fore.YELLOW + tabulate(myresult, headers=["N° AVIÓN", "NOMBRE DEL AVIÓN", "N° VUELO", "FECHA", "ESTADO"],
+                                 tablefmt="fancy_grid"))
+
 
 def listarAvionesLlegaronDestino():
     mycursor.execute("select * from vuelos_finalizados")
     myresult = mycursor.fetchall()
-    print(Fore.YELLOW+tabulate(myresult, headers = ["N° AVIÓN", "NOMBRE DEL AVIÓN", "N° VUELO", "HORA DE VUELO", "ESTADO"], tablefmt = "fancy_grid"))
+    print(Fore.YELLOW + tabulate(myresult,
+                                 headers=["N° AVIÓN", "NOMBRE DEL AVIÓN", "N° VUELO", "HORA DE VUELO", "ESTADO"],
+                                 tablefmt="fancy_grid"))
+
 
 def listarAvionesRetrasados():
     mycursor.execute("select * from vuelos_retrasados")
     myresult = mycursor.fetchall()
-    print(Fore.YELLOW+tabulate(myresult, headers = ["N° AVIÓN", "NOMBRE DEL AVIÓN", "N° VUELO", "FECHA DE VUELO", "COMENTARIO"], tablefmt = "fancy_grid"))
+    print(Fore.YELLOW + tabulate(myresult,
+                                 headers=["N° AVIÓN", "NOMBRE DEL AVIÓN", "N° VUELO", "FECHA DE VUELO", "COMENTARIO"],
+                                 tablefmt="fancy_grid"))
+
 
 def menuInformes():
     clear()
-    print(Fore.CYAN+"\tMENU INFORMES")
-    print(Fore.CYAN+"1."+Fore.BLUE+" Listado de clientes por vuelo.")
-    print(Fore.CYAN+"2."+Fore.BLUE+" Listado de aviones que se encuentran listos para partir asi como la cantidad de clientes que trasportan.")
-    print(Fore.CYAN+"3."+Fore.BLUE+" Listado de aviones que han llegado a su destino y el tiempo que tardaron en llegar.")
-    print(Fore.CYAN+"4."+Fore.BLUE+" Listado de aviones que se han retrasado y el motivo del retraso de su partida.")
-    print(Fore.CYAN+"5."+Fore.BLUE+" Volver a menu principal.")
-    opcionMenu = int(input(Fore.CYAN+"Ingrese una opcion del menu: "))
+    print(Fore.CYAN + "\tMENU INFORMES")
+    print(Fore.CYAN + "1." + Fore.BLUE + " Listado de clientes por vuelo.")
+    print(
+        Fore.CYAN + "2." + Fore.BLUE + " Listado de aviones que se encuentran listos para partir asi como la cantidad de clientes que trasportan.")
+    print(
+        Fore.CYAN + "3." + Fore.BLUE + " Listado de aviones que han llegado a su destino y el tiempo que tardaron en llegar.")
+    print(
+        Fore.CYAN + "4." + Fore.BLUE + " Listado de aviones que se han retrasado y el motivo del retraso de su partida.")
+    print(Fore.CYAN + "5." + Fore.BLUE + " Volver a menu principal.")
+    opcionMenu = int(input(Fore.CYAN + "Ingrese una opcion del menu: "))
     if opcionMenu == 5:
         menu()
     while opcionMenu != 5:
         if opcionMenu == 1:
             listarClientesVuelo()
-            input(Fore.CYAN+"presione cualquier tecla para continuar")
+            input(Fore.CYAN + "presione cualquier tecla para continuar")
             menuInformes()
             break
         elif opcionMenu == 2:
             listarAvionesListosPartir()
-            input(Fore.CYAN+"presione cualquier tecla para continuar")
+            input(Fore.CYAN + "presione cualquier tecla para continuar")
             menuInformes()
             break
         elif opcionMenu == 3:
             listarAvionesLlegaronDestino()
-            input(Fore.CYAN+"presione cualquier tecla para continuar")
+            input(Fore.CYAN + "presione cualquier tecla para continuar")
             menuInformes()
             break
         elif opcionMenu == 4:
             listarAvionesRetrasados()
-            input(Fore.CYAN+"presione cualquier tecla para continuar")
+            input(Fore.CYAN + "presione cualquier tecla para continuar")
             menuInformes()
             break
 
+
 def modificarEstadoRetraso():
-    id_vuelo = input(Fore.LIGHTBLACK_EX+"Ingrese el numero de vuelo: ")
+    id_vuelo = input(Fore.LIGHTBLACK_EX + "Ingrese el numero de vuelo: ")
     mycursor.execute("SELECT id_estado FROM vuelo where id_vuelo=" + id_vuelo)
     myresult = mycursor.fetchall()
     print(myresult[0][0])
@@ -827,72 +871,72 @@ def modificarEstadoRetraso():
                 "UPDATE vuelo SET id_estado = 1, comentarios='Se reactivo el vuelo' WHERE id_vuelo =" + id_vuelo)
             mydb.commit()
             print(mycursor.rowcount, "record(s) affected")
-            print(Fore.GREEN+"EL vuelo se ha reactivado")
+            print(Fore.GREEN + "EL vuelo se ha reactivado")
         else:
-            print(Fore.RED+"El vuelo no esta en retraso")
+            print(Fore.RED + "El vuelo no esta en retraso")
     else:
-        print(Fore.RED+"El vuelo no existe")
-
-
+        print(Fore.RED + "El vuelo no existe")
 
 
 def menu():
     clear()
-    print(Fore.CYAN+"\tMENU")
-    print(Fore.CYAN+"1."+Fore.BLUE+" Registrar Cliente")
-    print(Fore.CYAN+"2."+Fore.BLUE+" Registrar Avion")
-    print(Fore.CYAN+"3."+Fore.BLUE+" Registrar Vuelo")
-    print(Fore.CYAN+"4."+Fore.BLUE+" Registrar Tiquete")
-    print(Fore.CYAN+"5."+Fore.BLUE+" Registrar Retraso")
-    print(Fore.CYAN+"6."+Fore.BLUE+" Registrar Llegada")
-    print(Fore.CYAN+"7."+Fore.BLUE+" Modificar Estado de Retraso")
-    print(Fore.CYAN+"8."+Fore.BLUE+" Informes")
-    print(Fore.CYAN+"9."+Fore.BLUE+" Salida vuelos")
-    print(Fore.CYAN+"10."+Fore.BLUE+" Salir")
+    print(Fore.CYAN + "\tMENU")
+    print(Fore.CYAN + "1." + Fore.BLUE + " Registrar Cliente")
+    print(Fore.CYAN + "2." + Fore.BLUE + " Registrar Avion")
+    print(Fore.CYAN + "3." + Fore.BLUE + " Registrar Vuelo")
+    print(Fore.CYAN + "4." + Fore.BLUE + " Registrar Tiquete")
+    print(Fore.CYAN + "5." + Fore.BLUE + " Registrar Retraso")
+    print(Fore.CYAN + "6." + Fore.BLUE + " Registrar Llegada")
+    print(Fore.CYAN + "7." + Fore.BLUE + " Modificar Estado de Retraso")
+    print(Fore.CYAN + "8." + Fore.BLUE + " Informes")
+    print(Fore.CYAN + "9." + Fore.BLUE + " Salida vuelos")
+    print(Fore.CYAN + "10." + Fore.BLUE + " Salir")
+
+
 menu()
 
-opcionMenu = int(input(Fore.CYAN+"Digite una opcion: "))
+opcionMenu = int(input(Fore.CYAN + "Digite una opcion: "))
 
 while opcionMenu != 10:
     if opcionMenu == 1:
         registrarPersona()
-        input(Fore.CYAN+"presione cualquier tecla para continuar")
+        input(Fore.CYAN + "presione cualquier tecla para continuar")
         menu()
     elif opcionMenu == 2:
         registrarAvion()
-        input(Fore.CYAN+"presione cualquier tecla para continuar")
+        input(Fore.CYAN + "presione cualquier tecla para continuar")
         menu()
     elif opcionMenu == 3:
         registrarVuelo()
-        input(Fore.CYAN+"presione cualquier tecla para continuar")
+        input(Fore.CYAN + "presione cualquier tecla para continuar")
         menu()
     elif opcionMenu == 4:
         registrarTiquete()
-        input(Fore.CYAN+"presione cualquier tecla para continuar")
+        input(Fore.CYAN + "presione cualquier tecla para continuar")
         menu()
     elif opcionMenu == 5:
         # Se valida que el numero de vuelo exista en la base de datos
         retrasoVuelo()
-        input(Fore.CYAN+"presione cualquier tecla para continuar")
+        input(Fore.CYAN + "presione cualquier tecla para continuar")
         menu()
     elif opcionMenu == 6:
         id_vuelo = input("Digite el id del vuelo: ")
         llegadaVuelo(id_vuelo)
-        input(Fore.CYAN+"presione cualquier tecla para continuar")
+        input(Fore.CYAN + "presione cualquier tecla para continuar")
         menu()
     elif opcionMenu == 7:
         modificarEstadoRetraso()
-        input(Fore.CYAN+"presione cualquier tecla para continuar")
+        input(Fore.CYAN + "presione cualquier tecla para continuar")
         menu()
     elif opcionMenu == 8:
         menuInformes()
     elif opcionMenu == 9:
-        print(Fore.CYAN+"Saliendo los vuelos")
+        print(Fore.CYAN + "Saliendo los vuelos")
         salidaVuelos()
-        input(Fore.CYAN+"presione cualquier tecla para continuar")
+        input(Fore.CYAN + "presione cualquier tecla para continuar")
         menu()
     else:
-        print(Fore.CYAN+"No existe esa opcion")
+        print(Fore.CYAN + "No existe esa opcion")
         menu()
-    opcionMenu = int(input(Fore.CYAN+"Digite una opcion: "))
-print(Fore.MAGENTA+"Ha salido del programa")
+    opcionMenu = int(input(Fore.CYAN + "Digite una opcion: "))
+print(Fore.MAGENTA + "Ha salido del programa")

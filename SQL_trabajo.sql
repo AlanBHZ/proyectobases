@@ -1,4 +1,5 @@
 create database aeropuerto;
+
 use aeropuerto;
 create table Pais(
 	id_pais int primary key auto_increment,
