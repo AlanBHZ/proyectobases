@@ -19,7 +19,7 @@ def clear():
 mydb = mysql.connector.connect(
     host="localhost",
     user="root",
-    passwd="123456",
+    passwd="",
     database="aeropuerto"
 )
 
@@ -28,347 +28,385 @@ mycursor = mydb.cursor()
 
 # Clase cliente
 
-class Pais:
-    def __init__(self, id_pais, nombre_pais, region_pais):
-        self.id_pais = id_pais
-        self.nombre_pais = nombre_pais
-        self.region_pais = region_pais
-
-    def get_id_pais(self):
-        return self.id_pais
-    def set_id_pais(self, id_pais):
-        self.id_pais = id_pais
-    def get_nombre_pais(self):
-        return self.nombre_pais
-    def set_nombre_pais(self, nombre_pais):
-        self.nombre_pais = nombre_pais
-    def get_region_pais(self):
-        return self.region_pais
-    def set_region_pais(self, region_pais):
-        self.region_pais = region_pais
-
-class Aeropuerto:
-    def __init__(self, id_aeropuerto, nombre, id_pais):
-        self.id_aeropuerto = id_aeropuerto
-        self.nombre = nombre
-        self.id_pais = id_pais
-
-    def get_id_aeropuerto(self):
-        return self.id_aeropuerto
-    def set_id_aeropuerto(self, id_aeropuerto):
-        self.id_aeropuerto = id_aeropuerto
-    def get_nombre(self):
-        return self.nombre
-    def set_nombre(self, nombre):
-        self.nombre = nombre
-    def get_id_pais(self):
-        return self.id_pais
-    def set_id_pais(self, id_pais):
-        self.id_pais = id_pais
-
-class Cliente:
-    def __init__(self, cedula, nombre, apellido, fecha_nac, direccion, telefono, correo, id_pais):
-        self.cedula = cedula
-        self.nombre = nombre
-        self.apellido = apellido
-        self.fecha_nac = fecha_nac
-        self.direccion = direccion
-        self.telefono = telefono
-        self.correo = correo
-        self.id_pais = id_pais
-    def get_cedula(self):
-        return self.cedula
-    def set_cedula(self, cedula):
-        self.cedula = cedula
-    def get_nombre(self):
-        return self.nombre
-    def set_nombre(self, nombre):
-        self.nombre = nombre
-    def get_apellido(self):
-        return self.apellido
-    def set_apellido(self, apellido):
-        self.apellido = apellido
-    def get_fecha_nac(self):
-        return self.fecha_nac
-    def set_fecha_nac(self, fecha_nac):
-        self.fecha_nac = fecha_nac
-    def get_direccion(self):
-        return self.direccion
-    def set_direccion(self, direccion):
-        self.direccion = direccion
-    def get_telefono(self):
-        return self.telefono
-    def set_telefono(self, telefono):
-        self.telefono = telefono
-    def get_correo(self):
-        return self.correo
-    def set_correo(self, correo):
-        self.correo = correo
-    def get_id_pais(self):
-        return self.id_pais
-    def set_id_pais(self, id_pais):
-        self.id_pais = id_pais
-
-class Avion:
-    def __init__(self, id_avion, numero_de_serie, nombre, tipo, marca, modelo, capacidad, horas_vuelo):
-        self.id_avion = id_avion
-        self.numero_de_serie = numero_de_serie
-        self.nombre = nombre
-        self.tipo = tipo
-        self.marca = marca
-        self.modelo = modelo
-        self.capacidad = capacidad
-        self.horas_vuelo = horas_vuelo
-
-    def get_id_avion(self):
-        return self.id_avion
-
-    def set_id_avion(self, id_avion):
-        self.id_avion = id_avion
-
-    def get_numero_de_serie(self):
-        return self.numero_de_serie
-
-    def set_numero_de_serie(self, numero_de_serie):
-        self.numero_de_serie = numero_de_serie
+class Pais ():
+  def __init__(self, id_pais, nombre_pais, region_pais):
+    self.id_pais = id_pais
+    self.nombre_pais = nombre_pais
+    self.region_pais = region_pais
 
-    def get_nombre(self):
-        return self.nombre
+  def get_id_Pais(self):
+    return self.id_pais
 
-    def set_nombre(self, nombre):
-        self.nombre = nombre
+  def set_id_Pais(self, id_pais):
+    self.id_pais = id_pais
 
-    def get_tipo(self):
-        return self.tipo
+  def get_nombre_pais(self):
+    return self.nombre_pais
 
-    def set_tipo(self, tipo):
-        self.tipo = tipo
+  def set_nombre_pais(self, nombre_pais):
+    self.nombre_pais = nombre_pais
 
-    def get_marca(self):
-        return self.marca
+  def get_region_pais(self):
+    return self.region_pais
 
-    def set_marca(self, marca):
-        self.marca = marca
+  def set_region_pais(self, region_pais):
+    self.region_pais = region_pais
 
-    def get_modelo(self):
-        return self.modelo
+class Aeropuerto ():
+  def __init__(self, id_aeropuerto, nombre, id_pais):
+    self.id_aeropuerto = id_aeropuerto
+    self.nombre = nombre
+    self.id_pais = id_pais
 
-    def set_modelo(self, modelo):
-        self.modelo = modelo
+  def get_id_aeropuerto(self):
+    return self.id_aeropuerto
 
-    def get_capacidad(self):
-        return self.capacidad
+  def set_id_aeropuerto(self, id_aeropuerto):
+    self.id_aeropuerto = id_aeropuerto
 
-    def set_capacidad(self, capacidad):
-        self.capacidad = capacidad
+  def get_nombre(self):
+    return self.nombre
 
-    def get_horas_vuelo(self):
-        return self.horas_vuelo
+  def set_nombre(self, nombre):
+    self.nombre = nombre
 
-    def set_horas_vuelo(self, horas_vuelo):
-        self.horas_vuelo = horas_vuelo
+  def get_id_pais(self):
+    return self.id_pais
 
+  def set_id_pais(self, id_pais):
+    self.id_pais = id_pais
 
-class Silla:
-    def __init__(self, id_silla, estado, id_avion):
-        self.id_silla = id_silla
-        self.estado = estado
-        self.id_avion = id_avion
+class Cliente ():
+  def __init__(self, cedula, nombre, apellido, fecha_nac, direccion, telefono, correo, id_pais):
+    self.cedula = cedula
+    self.nombre = nombre
+    self.apellido = apellido
+    self.fecha_nac = fecha_nac
+    self.direccion = direccion
+    self.telefono = telefono
+    self.correo = correo
+    self.id_pais = id_pais
 
-    def get_id_silla(self):
-        return self.id_silla
+  def get_cedula(self):
+    return self.cedula
 
-    def set_id_silla(self, id_silla):
-        self.id_silla = id_silla
+  def set_cedula(self, cedula):
+    self.cedula = cedula
 
-    def get_estado(self):
-        return self.estado
+  def get_nombre(self):
+    return self.nombre
 
-    def set_estado(self, estado):
-        self.estado = estado
+  def set_nombre(self, nombre):
+    self.nombre = nombre
 
-    def get_id_avion(self):
-        return self.id_avion
+  def get_apellido(self):
+    return self.apellido
 
-    def set_id_avion(self, id_avion):
-        self.id_avion = id_avion
+  def set_apellido(self, apellido):
+    self.apellido = apellido
 
+  def get_fecha_nac(self):
+    return self.fecha_nac
 
-class Estado:
-    def __init__(self, id_estado, estado):
-        self.id_estado = id_estado
-        self.estado = estado
+  def set_fecha_nac(self, fecha_nac):
+    self.fecha_nac = fecha_nac
 
-    def get_id_estado(self):
-        return self.id_estado
+  def get_direccion(self):
+    return self.direccion
 
-    def set_id_estado(self, id_estado):
-        self.id_estado = id_estado
+  def set_direccion(self, direccion):
+    self.direccion = direccion
 
-    def get_estado(self):
-        return self.estado
+  def get_telefono(self):
+    return self.telefono
 
-    def set_estado(self, estado):
-        self.estado = estado
+  def set_telefono(self, telefono):
+    self.telefono = telefono
 
+  def get_correo(self):
+    return self.correo
 
-class Vuelo:
-    def __init__(self, id_vuelo, fecha, horaSalida, horaLlegada, numero_Pista, comentarios, id_avion,
-                 id_aeropuerto_origen, id_aeropuerto_destino, id_estado):
-        self.id_vuelo = id_vuelo
-        self.fecha = fecha
-        self.horaSalida = horaSalida
-        self.horaLlegada = horaLlegada
-        self.numero_Pista = numero_Pista
-        self.comentarios = comentarios
-        self.id_avion = id_avion
-        self.id_aeropuerto_origen = id_aeropuerto_origen
-        self.id_aeropuerto_destino = id_aeropuerto_destino
-        self.id_estado = id_estado
+  def set_correo(self, correo):
+    self.correo = correo
 
-    def get_id_vuelo(self):
-        return self.id_vuelo
+  def get_id_pais(self):
+    return self.id_pais
 
-    def set_id_vuelo(self, id_vuelo):
-        self.id_vuelo = id_vuelo
+  def set_id_pais(self, id_pais):
+    self.id_pais = id_pais
+class Tipo_avion ():
+  def __init__(self, id_tipo, nombre):
+    self.id_tipo = id_tipo
+    self.nombre = nombre
 
-    def get_fecha(self):
-        return self.fecha
+  def get_id_tipo(self):
+    return self.id_tipo
 
-    def set_fecha(self, fecha):
-        self.fecha = fecha
+  def set_id_tipo(self, id_tipo):
+    self.id_tipo = id_tipo
 
-    def get_horaSalida(self):
-        return self.horaSalida
+  def get_nombre(self):
+    return self.nombre
 
-    def set_horaSalida(self, horaSalida):
-        self.horaSalida = horaSalida
+  def set_nombre(self, nombre):
+    self.nombre = nombre
 
-    def get_horaLlegada(self):
-        return self.horaLlegada
+class Marca ():
+  def __init__(self, id_marca, nombre):
+    self.id_marca = id_marca
+    self.nombre = nombre
 
-    def set_horaLlegada(self, horaLlegada):
-        self.horaLlegada = horaLlegada
+  def get_id_marca(self):
+    return self.id_marca
 
-    def get_numero_Pista(self):
-        return self.numero_Pista
+  def set_id_marca(self, id_marca):
+    self.id_marca = id_marca
 
-    def set_numero_Pista(self, numero_Pista):
-        self.numero_Pista = numero_Pista
+  def get_nombre(self):
+    return self.nombre
 
-    def get_comentarios(self):
-        return self.comentarios
+  def set_nombre(self, nombre):
+    self.nombre = nombre
 
-    def set_comentarios(self, comentarios):
-        self.comentarios = comentarios
+class Modelo ():
+  def __init__(self, id_modelo, nombre):
+    self.id_modelo = id_modelo
+    self.nombre = nombre
 
-    def get_id_avion(self):
-        return self.id_avion
+  def get_id_modelo(self):
+    return self.id_modelo
 
-    def set_id_avion(self, id_avion):
-        self.id_avion = id_avion
+  def set_id_modelo(self, id_modelo):
+    self.id_modelo = id_modelo
 
-    def get_id_aeropuerto_origen(self):
-        return self.id_aeropuerto_origen
+  def get_nombre(self):
+    return self.nombre
 
-    def set_id_aeropuerto_origen(self, id_aeropuerto_origen):
-        self.id_aeropuerto_origen = id_aeropuerto_origen
+  def set_nombre(self, nombre):
+    self.nombre = nombre
 
-    def get_id_aeropuerto_destino(self):
-        return self.id_aeropuerto_destino
+class Avion ():
+  def __init__(self, numero_de_serie, nombre, id_tipo, id_marca, id_modelo, capacidad, horas_vuelo):
+    self.numero_de_serie = numero_de_serie
+    self.nombre = nombre
+    self.id_tipo = id_tipo
+    self.id_marca = id_marca
+    self.id_modelo = id_modelo
+    self.capacidad = capacidad
+    self.horas_vuelo = horas_vuelo
 
-    def set_id_aeropuerto_destino(self, id_aeropuerto_destino):
-        self.id_aeropuerto_destino = id_aeropuerto_destino
+  def get_numero_de_serie(self):
+    return self.numero_de_serie
 
-    def get_id_estado(self):
-        return self.id_estado
+  def set_numero_de_serie(self, numero_de_serie):
+    self.numero_de_serie = numero_de_serie
 
-    def set_id_estado(self, id_estado):
-        self.id_estado = id_estado
+  def get_nombre(self):
+    return self.nombre
 
+  def set_nombre(self, nombre):
+    self.nombre = nombre
 
-class Horario_dia:
-    def __init__(self, id_horariodia, dias_disponibles, id_vuelo):
-        self.id_horariodia = id_horariodia
-        self.dias_disponibles = dias_disponibles
-        self.id_vuelo = id_vuelo
+  def get_id_tipo(self):
+    return self.id_tipo
 
-    def get_id_horariodia(self):
-        return self.id_horariodia
+  def set_id_tipo(self, id_tipo):
+    self.id_tipo = id_tipo
 
-    def set_id_horariodia(self, id_horariodia):
-        self.id_horariodia = id_horariodia
+  def get_id_marca(self):
+    return self.id_marca
 
-    def get_dias_disponibles(self):
-        return self.dias_disponibles
+  def set_id_marca(self, id_marca):
+    self.id_marca = id_marca
 
-    def set_dias_disponibles(self, dias_disponibles):
-        self.dias_disponibles = dias_disponibles
+  def get_id_modelo(self):
+    return self.id_modelo
 
-    def get_id_vuelo(self):
-        return self.id_vuelo
+  def set_id_modelo(self, id_modelo):
+    self.id_modelo = id_modelo
 
-    def set_id_vuelo(self, id_vuelo):
-        self.id_vuelo = id_vuelo
+  def get_capacidad(self):
+    return self.capacidad
 
+  def set_capacidad(self, capacidad):
+    self.capacidad = capacidad
 
-class Horario_hora:
-    def __init__(self, id_horariohora, hora_disponibles, id_dia):
-        self.id_horariohora = id_horariohora
-        self.hora_disponibles = hora_disponibles
-        self.id_dia = id_dia
+  def get_horas_vuelo(self):
+    return self.horas_vuelo
 
-    def get_id_horariohora(self):
-        return self.id_horariohora
+  def set_horas_vuelo(self, horas_vuelo):
+    self.horas_vuelo = horas_vuelo
 
-    def set_id_horariohora(self, id_horariohora):
-        self.id_horariohora = id_horariohora
+class Silla():
+  def __init__(self, id_silla, estado, n_silla, id_avion):
+    self.id_silla = id_silla
+    self.estado = estado
+    self.n_silla = n_silla
+    self.id_avion = id_avion
 
-    def get_hora_disponibles(self):
-        return self.hora_disponibles
+  def get_id_silla(self):
+    return self.id_silla
 
-    def set_hora_disponibles(self, hora_disponibles):
-        self.hora_disponibles = hora_disponibles
+  def set_id_silla(self, id_silla):
+    self.id_silla = id_silla
 
-    def get_id_dia(self):
-        return self.id_dia
+  def get_estado(self):
+    return self.estado
 
-    def set_id_dia(self, id_dia):
-        self.id_dia = id_dia
+  def set_estado(self, estado):
+    self.estado = estado
 
+  def get_n_silla(self):
+    return self.n_silla
 
-class Tiquete:
-    def __init__(self, id_tiquete, id_cliente, id_vuelo, tipo):
-        self.id_tiquete = id_tiquete
-        self.id_cliente = id_cliente
-        self.id_vuelo = id_vuelo
-        self.tipo = tipo
+  def set_n_silla(self, n_silla):
+    self.n_silla = n_silla
 
-    def get_id_tiquete(self):
-        return self.id_tiquete
+  def get_id_avion(self):
+    return self.id_avion
 
-    def set_id_tiquete(self, id_tiquete):
-        self.id_tiquete = id_tiquete
+  def set_id_avion(self, id_avion):
+    self.id_avion = id_avion
 
-    def get_id_cliente(self):
-        return self.id_cliente
+class Estado ():
+  def __init__(self, id_estado, estado):
+    self.id_estado = id_estado
+    self.estado = estado
 
-    def set_id_cliente(self, id_cliente):
-        self.id_cliente = id_cliente
+  def get_id_estado(self):
+    return self.id_estado
 
-    def get_id_vuelo(self):
-        return self.id_vuelo
+  def set_id_estado(self, id_estado):
+    self.id_estado = id_estado
 
-    def set_id_vuelo(self, id_vuelo):
-        self.id_vuelo = id_vuelo
+  def get_estado(self):
+    return self.estado
 
-    def get_tipo(self):
-        return self.tipo
+  def set_estado(self, estado):
+    self.estado = estado
+class Vuelo ():
+  def __init__(self, fecha, horaSalida, horaLlegada, numero_Pista, comentarios, id_avion, id_aeropuerto_origen, id_aeropuerto_destino, id_estado):
+    self.fecha = fecha
+    self.horaSalida = horaSalida
+    self.horaLlegada = horaLlegada
+    self.numero_Pista = numero_Pista
+    self.comentarios = comentarios
+    self.id_avion = id_avion
+    self.id_aeropuerto_origen = id_aeropuerto_origen
+    self.id_aeropuerto_destino = id_aeropuerto_destino
+    self.id_estado = id_estado
 
-    def set_tipo(self, tipo):
-        self.tipo = tipo
+  def get_fecha(self):
+    return self.fecha
 
+  def set_fecha(self, fecha):
+    self.fecha = fecha
 
+  def get_horaSalida(self):
+    return self.horaSalida
+
+  def set_horaSalida(self, horaSalida):
+    self.horaSalida = horaSalida
+
+  def get_horaLlegada(self):
+    return self.horaLlegada
+
+  def set_horaLlegada(self, horaLlegada):
+    self.horaLlegada = horaLlegada
+
+  def get_numero_Pista(self):
+    return self.numero_Pista
+
+  def set_numero_Pista(self, numero_Pista):
+    self.numero_Pista = numero_Pista
+
+  def get_comentarios(self):
+    return self.comentarios
+
+  def set_comentarios(self, comentarios):
+    self.comentarios = comentarios
+
+  def get_id_avion(self):
+    return self.id_avion
+
+  def set_id_avion(self, id_avion):
+    self.id_avion = id_avion
+
+  def get_id_aeropuerto_origen(self):
+    return self.id_aeropuerto_origen
+
+  def set_id_aeropuerto_origen(self, id_aeropuerto_origen):
+    self.id_aeropuerto_origen = id_aeropuerto_origen
+
+  def get_id_aeropuerto_destino(self):
+    return self.id_aeropuerto_destino
+
+  def set_id_aeropuerto_destino(self, id_aeropuerto_destino):
+    self.id_aeropuerto_destino = id_aeropuerto_destino
+
+  def get_id_estado(self):
+    return self.id_estado
+
+  def set_id_estado(self, id_estado):
+    self.id_estado = id_estado
+
+class Tipo_tiquete ():
+  def __init__(self, id_tipo, nombre):
+    self.id_tipo = id_tipo
+    self.nombre = nombre
+
+  def get_id_tipo(self):
+    return self.id_tipo
+
+  def set_id_tipo(self, id_tipo):
+    self.id_tipo = id_tipo
+
+  def get_nombre(self):
+    return self.nombre
+
+  def set_nombre(self, nombre):
+    self.nombre = nombre
+
+class Tiquete ():
+  def __init__(self, id_cliente, id_vuelo, tipo):
+    self.id_cliente = id_cliente
+    self.id_vuelo = id_vuelo
+    self.tipo = tipo
+
+  def get_id_cliente(self):
+    return self.id_cliente
+
+  def set_id_cliente(self, id_cliente):
+    self.id_cliente = id_cliente
+
+  def get_id_vuelo(self):
+    return self.id_vuelo
+
+  def set_id_vuelo(self, id_vuelo):
+    self.id_vuelo = id_vuelo
+
+  def get_tipo(self):
+    return self.tipo
+
+  def set_tipo(self, tipo):
+    self.tipo = tipo
+
+class Estado ():
+  def __init__(self, id_estado, estado):
+    self.id_estado = id_estado
+    self.estado = estado
+
+  def get_id_estado(self):
+    return self.id_estado
+
+  def set_id_estado(self, id_estado):
+    self.id_estado = id_estado
+
+  def get_estado(self):
+    return self.estado
+
+  def set_estado(self, estado):
+    self.estado = estado
 def registrar_cliente(self):
     sql = "call registra_cliente(%s, %s, %s, %s, %s, %s, %s, %s)"
     val = (self.cedula, self.nombre, self.apellido,self.fecha_nac, self.direccion, self.telefono,self.correo,self.id_pais)
@@ -379,9 +417,8 @@ def registrar_cliente(self):
 
 
 def registrar_avion(self):
-    sql = "call registra_avion(%s, %s, %s, %s, %s, %s, %s, %s)"
-    val = (self.id_avion,self.numero_de_serie,self.nombre, self.tipo, self.marca, self.modelo, self.capacidad,self.horas_vuelo)
-
+    sql = "call registra_avion( %s, %s, %s, %s, %s, %s, %s)"
+    val = (self.numero_de_serie,self.nombre, self.id_tipo, self.id_marca, self.id_modelo, self.capacidad,self.horas_vuelo)
     mycursor.execute(sql, val)
     mydb.commit()
     print(mycursor.rowcount, Fore.GREEN+"record inserted.")
@@ -411,43 +448,58 @@ def registrarPersona():
     cliente = Cliente(cedula, nombre, apellido, fecha, direccion, telefono, correo, id_pais)
 
     registrar_cliente(cliente)
-
-
 # Avion
-
+def validar(id,nombre_tabla):
+    mycursor.execute("SELECT * FROM "+nombre_tabla)
+    myresult = mycursor.fetchall()
+    for x in myresult:
+        if int(id) == int(x[0]):
+            return True
+            break
+    return False
 def registrarAvion():
     clear()
     # Se valida que el numero de serie de avion no exista
-    id_avion = input(Fore.LIGHTBLACK_EX+"Ingrese el id del avion: ")
-    existe = True
-    while existe:
-        mycursor.execute("SELECT id_avion FROM avion")
-        myresult = mycursor.fetchall()
-        for x in myresult:
-            if x[0] == id_avion:
-                print(Fore.RED+"El id_avion del avion ya existe")
-                id_avion = input(Fore.LIGHTBLACK_EX+"Ingrese nuevamente el numero de serie del avion: ")
-            else:
-                existe = False
     numero_serie = input(Fore.LIGHTBLACK_EX+"Ingrese el numero de serie de avion: ")
     nombre = input(Fore.LIGHTBLACK_EX+"Ingrese el nombre de avion: ")
-    tipo = input(Fore.LIGHTBLACK_EX+"Ingrese el tipo de avion: ")
+    mycursor.execute("SELECT * FROM tipo_avion")
+    myresult = mycursor.fetchall()
+    print(Fore.YELLOW + tabulate(myresult, headers=["ID TIPO", "TIPO DE AVIÓN"],tablefmt="fancy_grid"))
+    tipo = input(Fore.LIGHTBLACK_EX + "Ingrese el id tipo de avion: ")
+    exite = validar(tipo,"tipo_avion")
+    while not exite:
+        tipo = input(Fore.LIGHTBLACK_EX+"Ingrese el id tipo de avion: ")
+        exite = validar(tipo,"tipo_avion")
+
+    mycursor.execute("SELECT * FROM marca")
+    myresult = mycursor.fetchall()
+    print(Fore.YELLOW + tabulate(myresult, headers=["ID MARCA", "MARCA DE AVIÓN"], tablefmt="fancy_grid"))
     marca = input(Fore.LIGHTBLACK_EX+"Ingrese la marca del avion: ")
+    exite = validar(marca, "marca")
+    while not exite:
+        marca = input(Fore.LIGHTBLACK_EX+"Ingrese la marca del avion: ")
+        exite = validar(marca,"marca")
+
+    mycursor.execute("SELECT * FROM modelo")
+    myresult = mycursor.fetchall()
+    print(Fore.YELLOW + tabulate(myresult, headers=["ID MODELO", "MODELO DE AVIÓN"], tablefmt="fancy_grid"))
     modelo = input(Fore.LIGHTBLACK_EX+"Ingrese el modelo del avion: ")
+    exite = validar(modelo, "modelo")
+    while not exite:
+        modelo = input(Fore.LIGHTBLACK_EX+"Ingrese el modelo del avion: ")
+        exite = validar(modelo, "modelo")
+
     capacidad = input(Fore.LIGHTBLACK_EX+"Ingrese la capacidad del avion: ")
     horas = input(Fore.LIGHTBLACK_EX+"Ingrese la horas de vuelo del avion: ")
-    avion = Avion(id_avion, numero_serie, nombre, tipo, marca, modelo, capacidad, horas)
+    avion = Avion(numero_serie, nombre, tipo, marca, modelo, capacidad, horas)
     registrar_avion(avion)
-
-
 # Vuelo
-
 
 def registrar_vuelo(self):
 
-    sql = "call registra_vuelo (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"
+    sql = "call registra_vuelo (%s,%s,%s,%s,%s,%s,%s,%s,%s)"
     val = (
-    self.id_vuelo, self.fecha, self.horaSalida, self.horaLlegada, self.numero_Pista, self.comentarios,
+    self.fecha, self.horaSalida, self.horaLlegada, self.numero_Pista, self.comentarios,
     self.id_avion, self.id_aeropuerto_origen, self.id_aeropuerto_destino, self.id_estado)
 
     mycursor.execute(sql, val)
