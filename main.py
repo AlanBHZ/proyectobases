@@ -21,17 +21,10 @@ def clear():
 
 mydb = mysql.connector.connect(
     host="localhost",
-    user="Empleado",
-    passwd="789",
+    user="root",
+    passwd="",
     database="aeropuerto"
 )
-mydb1 = mysql.connector.connect(
-    host="localhost",
-    user="Cliente",
-    passwd="456",
-    database="aeropuerto"
-)
-
 mycursor = mydb.cursor()
 
 
@@ -903,41 +896,7 @@ def modificarEstadoRetraso():
         print(Fore.RED + "El vuelo no existe")
 
 
-def menu_cliente():
-    print(Fore.CYAN + "\tMENU CLIENTE")
-    print(Fore.CYAN + "1." + Fore.BLUE + " Registrarse como Cliente")
-    print(Fore.CYAN + "2." + Fore.BLUE + " Comprar nuevo Tiquete")
-    print(Fore.CYAN + "3." + Fore.BLUE + " Ver destinos disponibles")
-    print(Fore.CYAN + "4." + Fore.BLUE + " Ver vuelos disponibles")
-    print(Fore.CYAN + "5." + Fore.BLUE + " Ver mis tiquetes")
-    print(Fore.CYAN + "6." + Fore.BLUE + " Salir")
-    opcionMenu = int(input(Fore.CYAN + "Digite una opcion: "))
-    while opcionMenu != 6:
-        if(opcionMenu == 1 ):
-            break
-        elif(opcionMenu == 2):
-            break
-        elif (opcionMenu == 3):
-            break
-        elif (opcionMenu == 4):
-            break
-        elif (opcionMenu == 5):
-            break
-    print(Fore.MAGENTA + "Ha salido del programa")
-def menu_inicio():
-    print(Fore.CYAN + "\tLOGIN")
-    usuario =input(Fore.BLUE + "USUARIO: ")
-    contra = input(Fore.BLUE + "CONTRASEÑA: ")
-    sql = "call validar(%s,%s)";
-    val = (usuario, contra)
-    mycursor.execute(sql,val)
-    myresult = mycursor.fetchall()
-    if(myresult == 'cliente'):
-        menu_cliente()
-    elif(myresult == 'empleado'):
-        menu()
-    else:
-        menu_inicio()
+
 def menu():
     clear()
     print(Fore.CYAN + "\tMENU EMPLEADO")
@@ -995,3 +954,4 @@ def menu():
             menu()
         opcionMenu = int(input(Fore.CYAN + "Digite una opcion: "))
     print(Fore.MAGENTA + "Ha salido del programa")
+menu()
