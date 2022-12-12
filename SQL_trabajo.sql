@@ -29,6 +29,12 @@ create table usuarios(
     contra varchar(45) not null,
     usuario varchar(45) not null
 );
+create table historial (
+	id_historial int not null primary key auto_increment,
+    usuario varchar(45) not null,
+    accion varchar(45) not null,
+    fecha date not null
+);
 create table tipo_avion(
  id_tipo int primary key auto_increment,
  nombre varchar(45)
@@ -68,7 +74,7 @@ create table estado(
 	id_estado int primary key,
     estado varchar(45)
 );
-
+select * from historial;
 #Se crea la tabla vuelo
 create table vuelo(
     id_vuelo int primary key auto_increment,
@@ -114,6 +120,7 @@ BEGIN
 	END WHILE;
 END;
 // delimiter ;
+
 INSERT INTO Pais (nombre_pais, Region_pais) 
 VALUES ('Mexico', 'Centroamerica'), 
 ('El Salvador', 'Centroamerica'), 
@@ -285,17 +292,23 @@ from vuelo v join estado e on e.id_estado = v.id_estado
 where e.id_estado = 1 or e.id_estado = 6 or e.id_estado = 7 or e.id_estado = 8;
 select * from vuelos_disponibles;
 
+# VER DESTINOS DISPONIBLES
+create view destinos_disponibles as
+select  * 
+from pais;
+select * from destinos_disponibles;
 
 ########## PROCEDIMIENTOS ##########
 
 #Registrar clientes
 delimiter //
-create procedure registra_cliente (in cedula int, in nombre varchar(50), in apellido varchar(50), in fecha_nac date, in direccion varchar(45), in telefono varchar(10),in correo varchar(45), in id_pais int)
+create procedure registra_cliente (in cedulas int, in nombre varchar(50), in apellido varchar(50), in fecha_nac date, in direccion varchar(45), in telefono varchar(10),in correo varchar(45), in pais int)
 begin
 	INSERT INTO cliente (cedula, nombre, apellido, fecha_nac, direccion, telefono, correo, id_pais)
-           VALUES (cedula, nombre, apellido, fecha_nac,direccion, telefono, correo, id_pais);
+           VALUES (cedulas, nombre, apellido, fecha_nac,direccion, telefono, correo, pais);
 end
 // delimiter 
+call into 
 
 #Registrar aviones
 delimiter //
@@ -305,7 +318,7 @@ begin
     VALUES (numero_de_serie, nombre, tipo, marca, modelo, capacidad, horas_vuel);
 end
 // delimiter 
-drop procedure registra_avion;
+#drop procedure registra_cliente;
 
 #Registrar Vuelo
 delimiter //
@@ -335,7 +348,17 @@ end
 // delimiter 
 call asientos(3,'Disponible');
 
-
+# VER TIQUETES QUE TIENE UN CLIENTE
+delimiter //
+create procedure ver_mis_tiquetes(in cedula int)
+begin
+	SELECT t.id_tiquete, t.id_cliente, concat(c.nombre, ' ', c.apellido) as Cliente, tt.nombre  
+	FROM tipo_tiquete tt join tiquete t on tt.id_tipo = t.tipo
+						 join cliente c on t.id_cliente = c.cedula
+	WHERE c.cedula  = cedula;
+end
+// delimiter 
+call ver_mis_tiquetes(123456789);
 
 
 
@@ -347,7 +370,7 @@ begin
 	select usuario from usuarios where id_usuario = id and contra = contras;
 end
 // delimiter 
-
+call validar_usuario(1,'123456');
 
 
 drop procedure registra_vuelo;
@@ -370,4 +393,14 @@ end
 // delimiter 
 drop procedure registra_vuelo;
 ########## TRIGGERS ##########
-
+delimiter //
+CREATE TRIGGER log_cliente  
+	AFTER INSERT ON cliente
+    FOR EACH ROW
+BEGIN
+    INSERT INTO historial (usuario, accion, fecha) 
+    VALUES (CURRENT_USER(), 'INSERT', NOW());
+END;
+// delimiter ;
+select * from vuelo;
+select CURRENT_USER();
