@@ -430,6 +430,8 @@ def registrar_cliente(self):
     sql = "call registra_cliente(%s, %s, %s, %s, %s, %s, %s, %s)"
     val = (
     self.cedula, self.nombre, self.apellido, self.fecha_nac, self.direccion, self.telefono, self.correo, self.id_pais)
+    mydb.close()
+    mydb.connect()
     mycursor.execute(sql, val)
     mydb.commit()
     print(mycursor.rowcount, Fore.GREEN + "Inserción realizada.")
@@ -440,6 +442,8 @@ def registrar_avion(self):
     sql = "call registra_avion( %s, %s, %s, %s, %s, %s, %s)"
     val = (
     self.numero_de_serie, self.nombre, self.id_tipo, self.id_marca, self.id_modelo, self.capacidad, self.horas_vuelo)
+    mydb.close()
+    mydb.connect()
     mycursor.execute(sql, val)
     mydb.commit()
     print(mycursor.rowcount, Fore.GREEN + "record inserted.")
@@ -451,6 +455,8 @@ def registrarPersona():
     cedula = input(Fore.LIGHTBLACK_EX + "Ingrese la cedula del cliente: ")
     existe = True
     while existe:
+        mydb.close()
+        mydb.connect()
         mycursor.execute("SELECT * FROM cliente")
         myresult = mycursor.fetchall()
         for x in myresult:
@@ -466,7 +472,6 @@ def registrarPersona():
     telefono = input(Fore.LIGHTBLACK_EX + "Ingrese el telefono del cliente: ")
     correo = input(Fore.LIGHTBLACK_EX + "Ingrese el correo del cliente: ")
     id_pais = input(Fore.LIGHTBLACK_EX + "Ingrese el id del pais del cliente: ")
-    print(cedula, nombre, apellido, fecha, direccion, telefono, correo, id_pais)
     cliente = Cliente(cedula, nombre, apellido, fecha, direccion, telefono, correo, id_pais)
 
     registrar_cliente(cliente)
@@ -474,6 +479,8 @@ def registrarPersona():
 
 # Avion
 def validar(id, nombre_tabla):
+    mydb.close()
+    mydb.connect()
     mycursor.execute("SELECT * FROM " + nombre_tabla)
     myresult = mycursor.fetchall()
     for x in myresult:
@@ -488,6 +495,8 @@ def registrarAvion():
     # Se valida que el numero de serie de avion no exista
     numero_serie = input(Fore.LIGHTBLACK_EX + "Ingrese el numero de serie de avion: ")
     nombre = input(Fore.LIGHTBLACK_EX + "Ingrese el nombre de avion: ")
+    mydb.close()
+    mydb.connect()
     mycursor.execute("SELECT * FROM tipo_avion")
     myresult = mycursor.fetchall()
     print(Fore.YELLOW + tabulate(myresult, headers=["ID TIPO", "TIPO DE AVIÓN"], tablefmt="fancy_grid"))
@@ -528,7 +537,8 @@ def registrar_vuelo(self):
     val = (
         self.fecha, self.horaSalida, self.horaLlegada, self.numero_Pista, self.comentarios,
         self.id_avion, self.id_aeropuerto_origen, self.id_aeropuerto_destino, self.id_estado)
-
+    mydb.close()
+    mydb.connect()
     mycursor.execute(sql, val)
     mydb.commit()
     print(mycursor.rowcount, Fore.GREEN + "Vuelo creado exitosamente")
@@ -538,6 +548,8 @@ def registrar_vuelo(self):
 def validarNumeroVuelo(numero_de_vuelo):
     existe = True
     while existe:
+        mydb.close()
+        mydb.connect()
         mycursor.execute("SELECT id_vuelo FROM vuelo")
         myresult = mycursor.fetchall()
         for x in myresult:
@@ -551,6 +563,8 @@ def validarNumeroVuelo(numero_de_vuelo):
 def validarNumeroAvion(numero_de_avion):
     existe = True
     while existe:
+        mydb.close()
+        mydb.connect()
         mycursor.execute("SELECT * FROM avion")
         myresult = mycursor.fetchall()
         for x in myresult:
@@ -567,6 +581,8 @@ def registrarVuelo():
     horaS = input(Fore.LIGHTBLACK_EX + "Ingrese la hora de salida: ")
     numero_p = input(Fore.LIGHTBLACK_EX + "Ingrese el numero de pista: ")
     comentarios = input(Fore.LIGHTBLACK_EX + "Ingrese los comentarios del vuelo: ")
+    mydb.close()
+    mydb.connect()
     mycursor.execute("SELECT id_avion,nombre FROM avion")
     myresult = mycursor.fetchall()
     print(Fore.YELLOW + tabulate(myresult, headers=["ID AVION", "NOMBRE AVIÓN"], tablefmt="fancy_grid"))
@@ -575,7 +591,8 @@ def registrarVuelo():
     while not exite:
         id_avion = input(Fore.LIGHTBLACK_EX + "Ingrese el id del avion: ")
         exite = validar(id_avion, "avion")
-
+    mydb.close()
+    mydb.connect()
     mycursor.execute("SELECT id_aeropuerto,nombre FROM aeropuerto")
     myresult = mycursor.fetchall()
     print(Fore.YELLOW + tabulate(myresult, headers=["ID AEROPUERTO", "NOMBRE AEROPUERTO"], tablefmt="fancy_grid"))
@@ -584,7 +601,8 @@ def registrarVuelo():
     while not exite:
         id_ao = input(Fore.LIGHTBLACK_EX + "Ingrese el id del aeropuerto de origen: ")
         exite = validar(id_ao, "aeropuerto")
-
+    mydb.close()
+    mydb.connect()
     mycursor.execute("SELECT id_aeropuerto,nombre FROM aeropuerto")
     myresult = mycursor.fetchall()
     print(Fore.YELLOW + tabulate(myresult, headers=["ID AEROPUERTO", "NOMBRE AEROPUERTO"], tablefmt="fancy_grid"))
@@ -604,7 +622,8 @@ def registrar_tiquete(self):
     # print("Se registrara el tiquete con la siguiente informacion:", self.numero_de_tiquete_id, self.cedula, self.numero_de_vuelo_id, self.numero_de_asiento)
     sql = "INSERT INTO tiquete (id_cliente,id_vuelo,tipo) values (%s,%s,%s);"
     val = (self.id_cliente, self.id_vuelo, self.tipo)
-
+    mydb.close()
+    mydb.connect()
     mycursor.execute(sql, val)
     mydb.commit()
     print(mycursor.rowcount, Fore.GREEN + "Tiquete creado exitosamente")
@@ -612,6 +631,8 @@ def registrar_tiquete(self):
 def validarCedula(cedula):
     existe = True
     while existe:
+        mydb.close()
+        mydb.connect()
         mycursor.execute("SELECT * FROM cliente")
         myresult = mycursor.fetchall()
         for x in myresult:
@@ -634,6 +655,8 @@ def validar_asiento(n_asiento,id_avion):
             if(str(x[1]) == 'Disponible'):
                 sql = "update silla set estado = 'Ocupado' where n_silla = %s and id_avion = %s"
                 val = (n_asiento,id_avion)
+                mydb.close()
+                mydb.connect()
                 mycursor.execute(sql,val)
                 mydb.commit()
                 existe = False
@@ -643,6 +666,8 @@ def validar_asiento(n_asiento,id_avion):
         validar_asiento(numero_de_asiento,id_avion)
 
 def validarEstadoVuelo(numero_de_vuelo_id):
+    mydb.close()
+    mydb.connect()
     mycursor.execute(
         "SELECT e.estado FROM vuelo v join estado e on e.id_estado = v.id_estado WHERE v.id_vuelo = " + numero_de_vuelo_id)
     myresult = mycursor.fetchall()
@@ -654,6 +679,8 @@ def validarEstadoVuelo(numero_de_vuelo_id):
 def asientos_o(id_vuelo,estado):
     sql = "call asientos(%s,%s)"
     val = (id_vuelo,estado)
+    mydb.close()
+    mydb.connect()
     mycursor.execute(sql,val)
     myresult =mycursor.fetchall()
     mydb.close()
@@ -662,6 +689,8 @@ def asientos_d(id_vuelo,estado):
     mydb.connect()
     sql = "call asientos(%s,%s)"
     val = (id_vuelo,estado)
+    mydb.close()
+    mydb.connect()
     mycursor.execute(sql,val)
     myresult =mycursor.fetchall()
     return myresult[0][0]
@@ -695,6 +724,8 @@ def registrarTiquete():
     n_asiento=input(Fore.LIGHTBLACK_EX + "Ingrese el numero de asiento: ")
 
     validar_asiento(n_asiento, id_avion)
+    mydb.close()
+    mydb.connect()
     mycursor.execute("SELECT * FROM tipo_tiquete")
     myresult = mycursor.fetchall()
     print(Fore.YELLOW + tabulate(myresult, headers=["ID TIPO_TIQUETE", "TIPO TIQUETE"], tablefmt="fancy_grid"))
@@ -715,12 +746,16 @@ def salidaVuelos():
 
     horaActual = horaActual.strftime('%H:%M:%S')
     print(horaActual)
+    mydb.close()
+    mydb.connect()
     mycursor.execute(
         "SELECT id_vuelo,id_estado FROM vuelo where id_estado = 1 or id_estado = 6 or id_estado =7 or id_estado = 8 and id_estado = 10")
     myresult = mycursor.fetchall()
     for x in myresult:
         print(x[0])
         if (len(myresult) != 0):
+            mydb.close()
+            mydb.connect()
             mycursor.execute(
                 "UPDATE vuelo SET id_estado = 11,horaSalida = NOW(), comentarios='El vuelo en vuelo' WHERE id_vuelo =" + str(
                     x[0]))
@@ -735,7 +770,8 @@ def salidaVuelos():
 def cambioEstadoVuelo(numero_de_vuelo_id, comentrario):
     sql = "UPDATE vuelo SET id_estado = 3,comentarios = %s WHERE id_vuelo = %s"
     val = (comentrario, numero_de_vuelo_id)
-
+    mydb.close()
+    mydb.connect()
     mycursor.execute(sql, val)
     mydb.commit()
     print(mycursor.rowcount, Fore.GREEN + "record(s) affected")
@@ -753,11 +789,14 @@ def RetrasoArreglado(numero_de_vuelo_id):
     comentrario = "Retraso arreglado"
     sql = "UPDATE vuelo SET estado = %s WHERE numero_de_vuelo = %s"
     val = (estadovuelo, numero_de_vuelo_id)
-
+    mydb.close()
+    mydb.connect()
     mycursor.execute(sql, val)
     mydb.commit()
     print(mycursor.rowcount, Fore.GREEN + "record(s) affected")
     # cambio comentario
+    mydb.close()
+    mydb.connect()
     sqll = "UPDATE vuelo SET comentarios = %s WHERE numero_de_vuelo = %s"
     vall = (comentrario, numero_de_vuelo_id)
 
@@ -770,6 +809,8 @@ def retrasoVuelo():
     numero_de_vuelo_id = input(Fore.LIGHTBLACK_EX + "Ingrese el numero de vuelo: ")
     existe = False
     while not existe:
+        mydb.close()
+        mydb.connect()
         mycursor.execute("SELECT id_estado FROM vuelo where id_vuelo=" + numero_de_vuelo_id)
 
         myresult = mycursor.fetchall()
@@ -793,12 +834,15 @@ def llegadaVuelo(id_vuelo):
     horaActual = datetime.now().time()
     horaActual = horaActual.strftime('%H:%M:%S')
     print(horaActual)
+    mydb.close()
+    mydb.connect()
     mycursor.execute("SELECT id_estado FROM vuelo where id_vuelo=" + id_vuelo)
     myresult = mycursor.fetchall()
     print(myresult[0][0])
     if (len(myresult) != 0):
         if (myresult[0][0] == 11):
-
+            mydb.close()
+            mydb.connect()
             mycursor.execute(
                 "UPDATE vuelo SET id_estado = 5,horaLlegada = NOW(), comentarios='El vuelo finalizado' WHERE id_vuelo =" + id_vuelo)
             mydb.commit()
@@ -811,6 +855,8 @@ def llegadaVuelo(id_vuelo):
 
 
 def listarClientesVuelo():
+    mydb.close()
+    mydb.connect()
     mycursor.execute("SELECT * FROM clientes_vuelo")
     myresult = mycursor.fetchall()
     print(Fore.YELLOW + tabulate(myresult,
@@ -819,6 +865,8 @@ def listarClientesVuelo():
 
 
 def listarAvionesListosPartir():
+    mydb.close()
+    mydb.connect()
     mycursor.execute("SELECT * FROM aviones_listos")
     myresult = mycursor.fetchall()
     print(Fore.YELLOW + tabulate(myresult, headers=["N° AVIÓN", "NOMBRE DEL AVIÓN", "N° VUELO", "FECHA", "ESTADO"],
@@ -826,6 +874,8 @@ def listarAvionesListosPartir():
 
 
 def listarAvionesLlegaronDestino():
+    mydb.close()
+    mydb.connect()
     mycursor.execute("select * from vuelos_finalizados")
     myresult = mycursor.fetchall()
     print(Fore.YELLOW + tabulate(myresult,
@@ -834,6 +884,8 @@ def listarAvionesLlegaronDestino():
 
 
 def listarAvionesRetrasados():
+    mydb.close()
+    mydb.connect()
     mycursor.execute("select * from vuelos_retrasados")
     myresult = mycursor.fetchall()
     print(Fore.YELLOW + tabulate(myresult,
@@ -880,11 +932,15 @@ def menuInformes():
 
 def modificarEstadoRetraso():
     id_vuelo = input(Fore.LIGHTBLACK_EX + "Ingrese el numero de vuelo: ")
+    mydb.close()
+    mydb.connect()
     mycursor.execute("SELECT id_estado FROM vuelo where id_vuelo=" + id_vuelo)
     myresult = mycursor.fetchall()
     print(myresult[0][0])
     if (len(myresult) != 0):
         if (myresult[0][0] == 3):
+            mydb.close()
+            mydb.connect()
             mycursor.execute(
                 "UPDATE vuelo SET id_estado = 1, comentarios='Se reactivo el vuelo' WHERE id_vuelo =" + id_vuelo)
             mydb.commit()
@@ -894,9 +950,126 @@ def modificarEstadoRetraso():
             print(Fore.RED + "El vuelo no esta en retraso")
     else:
         print(Fore.RED + "El vuelo no existe")
-
-
-
+def modificarEstadoEnVuelo():
+    id_vuelo = input(Fore.LIGHTBLACK_EX + "Ingrese el numero de vuelo: ")
+    mydb.close()
+    mydb.connect()
+    mycursor.execute("SELECT id_estado FROM vuelo where id_vuelo=" + id_vuelo)
+    myresult = mycursor.fetchall()
+    print(myresult[0][0])
+    if (len(myresult) != 0):
+        if (myresult[0][0] == 1):
+            mydb.close()
+            mydb.connect()
+            mycursor.execute(
+                "UPDATE vuelo SET id_estado = 11, comentarios='El vuelo se puso en En Vuelo' WHERE id_vuelo =" + id_vuelo)
+            print(Fore.GREEN + "EL vuelo se ha puesto en estado: En Vuelo")
+        else:
+            print(Fore.RED + "El vuelo no esta en estado activo")
+    else:
+        print(Fore.RED + "El vuelo no existe")
+def menu_cliente():
+    print(Fore.CYAN + "\tMENU CLIENTE")
+    print(Fore.CYAN + "1." + Fore.BLUE + " Registrarse como Cliente")
+    print(Fore.CYAN + "2." + Fore.BLUE + " Comprar nuevo Tiquete")
+    print(Fore.CYAN + "3." + Fore.BLUE + " Ver destinos disponibles")
+    print(Fore.CYAN + "4." + Fore.BLUE + " Ver vuelos disponibles")
+    print(Fore.CYAN + "5." + Fore.BLUE + " Ver mis tiquetes")
+    print(Fore.CYAN + "6." + Fore.BLUE + " Volver al login")
+    opcionMenu = int(input(Fore.CYAN + "Digite una opcion: "))
+    while opcionMenu != 6:
+        if(opcionMenu == 1 ):
+            registrarPersona()
+            input(Fore.CYAN + "presione cualquier tecla para continuar")
+            menu_cliente()
+            break
+        elif(opcionMenu == 2):
+            registrarTiquete()
+            input(Fore.CYAN + "presione cualquier tecla para continuar")
+            menu_cliente()
+            break
+        elif (opcionMenu == 3):
+            mydb.close()
+            mydb.connect()
+            mycursor.execute("Select * from destinos_disponibles")
+            myresult = mycursor.fetchall()
+            print(Fore.YELLOW + tabulate(myresult,
+                                         headers=["ID PAIS", "NOMBRE DEL PAIS", "REGIÓN DEL PAIS"],tablefmt="fancy_grid"))
+            menu_cliente()
+            break
+        elif (opcionMenu == 4):
+            mydb.close()
+            mydb.connect()
+            mycursor.execute("Select * from vuelos_disponibles")
+            myresult = mycursor.fetchall()
+            print(Fore.YELLOW + tabulate(myresult,
+                                         headers=["ID AVIÓN", "NOMBRE DEL AVIÓN", "ID VUELO","FECHA DEL VUELO","ESTADO","COMENTARIOS"],
+                                         tablefmt="fancy_grid"))
+            menu_cliente()
+            break
+        elif (opcionMenu == 5):
+            cedula = input(Fore.LIGHTBLUE_EX + "Digite su cédula: ")
+            cedula = int(validarCedula(cedula))
+            mydb.close()
+            mydb.connect()
+            sql = "call ver_mis_tiquetes(%s)"
+            val = [cedula]
+            mycursor.execute(sql,val)
+            myresult = mycursor.fetchall()
+            if(len(myresult) == 0):
+                print(Fore.RED + "El cliente no tiene vuelos")
+            else:
+                print(Fore.YELLOW + tabulate(myresult,
+                                             headers=["ID TIQUETE", "ID CLIENTE", "CLIENTE", "TIPO TIQUETE"],
+                                             tablefmt="fancy_grid"))
+            menu_cliente()
+            break
+    menu_inicio()
+def menu_inicio():
+    print(Fore.CYAN + "\tLOGIN")
+    usuario =input(Fore.BLUE + "USUARIO: ")
+    contra = str(input(Fore.BLUE + "CONTRASEÑA: "))
+    mydb.close()
+    mydb.connect()
+    sql = "call validar_usuario(%s,%s)"
+    val = (usuario, contra)
+    mycursor.execute(sql,val)
+    myresult = mycursor.fetchall()
+    if(myresult[0][0] == 'cliente'):
+        menu_cliente()
+    elif(myresult[0][0] == 'empleado'):
+        menu()
+    else:
+        menu_inicio()
+def menu_estados():
+    clear()
+    print(Fore.CYAN + "\tMENU CAMBIO DE ESTADOS")
+    print(Fore.CYAN + "1." + Fore.BLUE + " Cambiar estado de vuelo de Activo a Retraso")
+    print(Fore.CYAN + "2." + Fore.BLUE + " Cambiar estado de vuelo de En vuelo a Finalizado")
+    print(Fore.CYAN + "3." + Fore.BLUE + " Cambiar estado de vuelo de Retrasado a Activo")
+    print(Fore.CYAN + "4." + Fore.BLUE + " Cambiar estado de vuelo de Activo a En Vuelo")
+    print(Fore.CYAN + "5." + Fore.BLUE + " Volver al menu empleado")
+    opcionMenu = int(input(Fore.CYAN + "Digite una opcion: "))
+    while opcionMenu != 5:
+        if opcionMenu == 1:
+            # Se valida que el numero de vuelo exista en la base de datos
+            retrasoVuelo()
+            input(Fore.CYAN + "presione cualquier tecla para continuar")
+            menu_estados()
+        elif opcionMenu == 2:
+            id_vuelo = input("Digite el id del vuelo: ")
+            llegadaVuelo(id_vuelo)
+            input(Fore.CYAN + "presione cualquier tecla para continuar")
+            menu_estados()
+        elif opcionMenu == 3:
+            modificarEstadoRetraso()
+            input(Fore.CYAN + "presione cualquier tecla para continuar")
+            menu_estados()
+        elif opcionMenu == 4:
+            modificarEstadoEnVuelo()
+            input(Fore.CYAN + "presione cualquier tecla para continuar")
+            menu_estados()
+    menu()
 def menu():
     clear()
     print(Fore.CYAN + "\tMENU EMPLEADO")
@@ -904,14 +1077,11 @@ def menu():
     print(Fore.CYAN + "2." + Fore.BLUE + " Registrar un nuevo Avion")
     print(Fore.CYAN + "3." + Fore.BLUE + " Registrar un nuevo Vuelo")
     print(Fore.CYAN + "4." + Fore.BLUE + " Registrar un nuevo Tiquete")
-    print(Fore.CYAN + "5." + Fore.BLUE + " Cambiar estado de vuelo a Retraso")
-    print(Fore.CYAN + "6." + Fore.BLUE + " Cambiar estado de vuelo a Finalizado")
-    print(Fore.CYAN + "7." + Fore.BLUE + " Cambiar estado de vuelo de Retrasado a Activo")
-    print(Fore.CYAN + "8." + Fore.BLUE + " Informes del Aeropuerto")
-    print(Fore.CYAN + "9." + Fore.BLUE + " Cambiar todos los estados a en vuelo")
-    print(Fore.CYAN + "10." + Fore.BLUE + " Salir")
+    print(Fore.CYAN + "5." + Fore.BLUE + " Informes del Aeropuerto")
+    print(Fore.CYAN + "6." + Fore.BLUE + " Ir a menu cambio de estados")
+    print(Fore.CYAN + "7." + Fore.BLUE + " Volver al login")
     opcionMenu = int(input(Fore.CYAN + "Digite una opcion: "))
-    while opcionMenu != 10:
+    while opcionMenu != 7:
         if opcionMenu == 1:
             registrarPersona()
             input(Fore.CYAN + "presione cualquier tecla para continuar")
@@ -928,30 +1098,15 @@ def menu():
             registrarTiquete()
             input(Fore.CYAN + "presione cualquier tecla para continuar")
             menu()
-        elif opcionMenu == 5:
-            # Se valida que el numero de vuelo exista en la base de datos
-            retrasoVuelo()
-            input(Fore.CYAN + "presione cualquier tecla para continuar")
-            menu()
         elif opcionMenu == 6:
-            id_vuelo = input("Digite el id del vuelo: ")
-            llegadaVuelo(id_vuelo)
+            menu_estados()
             input(Fore.CYAN + "presione cualquier tecla para continuar")
             menu()
-        elif opcionMenu == 7:
-            modificarEstadoRetraso()
-            input(Fore.CYAN + "presione cualquier tecla para continuar")
-            menu()
-        elif opcionMenu == 8:
+        elif opcionMenu == 5:
             menuInformes()
-        elif opcionMenu == 9:
-            print(Fore.CYAN + "Saliendo los vuelos")
-            salidaVuelos()
-            input(Fore.CYAN + "presione cualquier tecla para continuar")
-            menu()
         else:
             print(Fore.CYAN + "No existe esa opcion")
             menu()
         opcionMenu = int(input(Fore.CYAN + "Digite una opcion: "))
-    print(Fore.MAGENTA + "Ha salido del programa")
-menu()
+    menu_inicio()
+menu_inicio()
